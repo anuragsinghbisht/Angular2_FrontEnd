@@ -1,0 +1,22 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+notifications:
+  email: false
+node_js:
+  - '7'
+  - '6'
+  - '4'
+before_script:
+  - npm prune
+script:
+  - ng build --prod --base-href "https://anuragsinghbisht.github.io/angular2/"
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

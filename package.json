@@ -1,6 +1,6 @@
 {
   "name": "ng2-exercise",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "angular-cli-ghpages"
+    "deploy": "angular-cli-ghpages",
+    "semantic-release": "semantic-release pre && npm run deploy && semantic-release post"
   },
   "private": true,
   "dependencies": {
@@ -51,6 +52,11 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "semantic-release": "^6.3.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anuragsinghbisht/angular2.git"
   }
 }
