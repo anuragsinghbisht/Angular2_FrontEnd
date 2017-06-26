@@ -1,6 +1,6 @@
 <div class="container pt-5">
-  <div class="row" id="product-details">
-    <div class="col-md-4 hidden-md-down align-self-center">
+  <div class="row" id="product-details" *ngIf="product">
+    <div class="col-md-4 hidden-md-down align-self-center" >
       <img [src]="product.imageHref" alt="Product Image" />
     </div>
     <div class="col col-md-6 offset-md-2" id="product-pdf">
