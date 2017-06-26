@@ -1,5 +1,8 @@
 # Ng2Exercise
 
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg?style=flat-square)](https://travis-ci.org/anuragsinghbisht/angular2)
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.3.
 
 ## Development server
