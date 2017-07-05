@@ -7,14 +7,16 @@ import { Product } from './product';
 
 @Injectable()
 export class ProductService {
-  private url = 'api/products';
+  private url = 'http://localhost:3000/api/products';
 
   constructor(private http: Http) { }
 
   getData(): Promise<ProductList> {
     return this.http.get(this.url)
               .toPromise()
-              .then(res => res.json().data as ProductList)
+              .then(res => {
+                return res.json()[0] as ProductList
+              })
               .catch(this.handleError)
   }
 
