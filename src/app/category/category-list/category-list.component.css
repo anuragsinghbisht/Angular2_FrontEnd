@@ -1,0 +1,29 @@
+.product-list {
+  width: 96%;
+  padding-bottom: 2%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-around;
+}
+
+md-card {
+  flex: 0 0 40%;
+  margin-top: 2%;
+}
+
+.avatar {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  border: 1px solid #000;
+}
+
+.product-image {
+  height: 100px;
+  width: 90%;
+  background-size: 100% 100%;
+  margin-left: 5%;
+}

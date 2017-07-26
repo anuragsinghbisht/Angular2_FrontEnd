@@ -1,3 +1,18 @@
-<p>
-  banner works!
-</p>
+<md-card>
+  <md-card-header>
+    <md-card-title>{{ categoryList.title }}</md-card-title>
+  </md-card-header>
+  <md-card-content>
+    <p>{{ categoryList.description }}</p>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button routerLink="/category/list">
+      <md-icon>dashboard</md-icon>
+      <span>Categories</span>
+    </button>
+    <button md-button routerLink="/category/add">
+      <md-icon>add</md-icon>
+      <span>Add Product</span>
+    </button>
+  </md-card-actions>
+</md-card>

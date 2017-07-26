@@ -1,0 +1,9 @@
+<md-list>
+  <h3 md-subheader>Categories</h3>
+  <md-list-item
+    [routerLink]="['/category','list',category.categoryName]"
+    *ngFor="let category of categories">
+    <md-icon md-list-icon>widgets</md-icon>
+    <h4 md-line>{{ category.categoryName }}</h4>
+  </md-list-item>
+</md-list>

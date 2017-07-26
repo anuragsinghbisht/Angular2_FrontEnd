@@ -1,3 +1,24 @@
-<p>
-  category-list works!
-</p>
+<div class="product-list">
+  <md-card
+    [routerLink]='["/category","list",product.category,product.id]'
+    *ngFor="let product of products">
+    <md-card-header>
+      <div md-card-avatar class="avatar"> {{ product.title.split("")[0] }}</div>
+      <md-card-title>{{product.title}}</md-card-title>
+      <md-card-subtitle>{{product.category}}</md-card-subtitle>
+    </md-card-header>
+    <div
+      md-card-image
+      class="product-image"
+      [ngStyle]="{backgroundImage: 'url('+product.imageHref+')'}"></div>
+    <md-card-content>
+      <p>
+        {{product.description}}
+      </p>
+      <p>
+        <md-icon>open in new</md-icon>
+        <a href="{{product.url}}">{{product.url}}</a>
+      </p>
+    </md-card-content>
+  </md-card>
+</div>
