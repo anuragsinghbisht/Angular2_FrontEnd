@@ -13,7 +13,7 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   routeParamSubscribe;
   product: Product;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.routeParamSubscribe = this.route.params.subscribe(params => {
@@ -22,12 +22,11 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
           this.product = prod;
           console.log(this.product);
         }
-      })
-    })
+      });
+    });
   }
 
-  ngOnDestroy () {
+  ngOnDestroy() {
     this.routeParamSubscribe.unsubscribe();
   }
-
 }
