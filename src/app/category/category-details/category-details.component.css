@@ -1,0 +1,17 @@
+.product-card {
+  margin: 5%;
+  width: 90%;
+  display: flex;
+}
+
+.product-image {
+  flex: 1 1 30%;
+  margin-right: 2%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.product-info {
+  flex: 1 1 70%;
+}

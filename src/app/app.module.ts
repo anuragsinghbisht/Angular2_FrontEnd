@@ -1,34 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { AppRoutingModule } from './app-routing/app-routing.module';
+import { RouterModule } from '@angular/router';
 
-// Imports for loading & configuring the in-memory web api
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-// import { InMemoryDataService }  from './in-memory-data.service';
-
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+// Modules
+import { CategoryModule } from './category/category.module';
+import { CoreModule } from './core/core.module';
+import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
+// Component
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductDetailsComponent } from './product-details/product-details.component';
-import { ProductService } from './product.service';
+// Routes
+import { routes } from './app.routes';
+// Reducers
+import { reducers, metaReducers } from './app.reducers';
+
+import 'hammerjs';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    HomeComponent,
-    ProductListComponent,
-    ProductDetailsComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
-    // InMemoryWebApiModule.forRoot(InMemoryDataService),
-    AppRoutingModule
+    RouterModule.forRoot(routes),
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreDevtoolsModule.instrument(),
+    CategoryModule,
+    CoreModule,
+    HomeModule,
+    SharedModule
   ],
-  providers: [ProductService],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
