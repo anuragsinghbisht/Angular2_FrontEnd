@@ -12,7 +12,7 @@ node_js:
 before_script:
   - npm prune
 script:
-  - ng build --prod --base-href "https://anuragsinghbisht.github.io/angular2/"
+  - ng build --prod --base-href "https://anuragsinghbisht.github.io/Angular2_FrontEnd/"
 after_success:
   - npm run semantic-release
 branches:

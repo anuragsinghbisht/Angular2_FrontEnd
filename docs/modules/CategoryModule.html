@@ -26,18 +26,15 @@
                 <ul class="list">
             
                     <li class="title">
-                        <a href="../">ng2-exercise documentation</a>
+                        <a href="../index.html">ng2-exercise documentation</a>
                     </li>
             
                     <li class="divider"></li>
             
             
                     <li class="chapter">
-                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
                         <ul class="links">
-                                <li class="link">
-                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
-                                </li>
                                 <li class="link">
                                     <a 
                                         
@@ -47,25 +44,37 @@
                                         <span class="fa fa-th"></span>Overview
                                     </a>
                                 </li>
+                                <li class="link">
+                                  <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a href="./license.html"
+                                        >
+                                        <span class="fa fa-file-text-o"></span>LICENSE
+                                    </a>
+                                </li>
                         </ul>
                     </li>
             
+            
                     <li class="chapter">
-                        <a data-type="chapter-link" href="./modules.html" >
-                            <span class="fa fa-archive"></span>
-                            <span>Modules</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                        <a data-type="chapter-link" href="../modules.html" >
+                            <div class="menu-toggler linked" data-toggle="collapse"
                                     data-target="#xs-modules-links"
-                            ></span>
+                            >
+                                <span class="fa fa-archive"></span>
+                                <span class="link-name">Modules</span>
+                                <span class="fa fa-angle-down"></span>
+                            </div>
                         </a>
-                        <ul class="links collapse in"
+                        <ul class="links collapse "
                                 id="xs-modules-links"
                             >
                                 <li class="link">
                                     <a href="../modules/AppModule.html" >AppModule</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../modules/CategoryModule.html"  class="active" >CategoryModule</a>
+                                    <a href="../modules/CategoryModule.html"  data-type="entity-link" class="active" >CategoryModule</a>
                                 </li>
                                 <li class="link">
                                     <a href="../modules/CoreModule.html" >CoreModule</a>
@@ -74,23 +83,20 @@
                                     <a href="../modules/HomeModule.html" >HomeModule</a>
                                 </li>
                                 <li class="link">
-                                    <a href="../modules/LayoutModule.html" >LayoutModule</a>
-                                </li>
-                                <li class="link">
                                     <a href="../modules/SharedModule.html" >SharedModule</a>
                                 </li>
                         </ul>
                     </li>
             
                     <li class="chapter">
-                        <div class="simple">
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-components-links"
+                            >
                             <span class="fa fa-cogs"></span>
                             <span>Components</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                    data-target="#xs-components-links"
-                                ></span>
+                            <span class="fa fa-angle-down"></span>
                         </div>
-                        <ul class="links collapse in"
+                        <ul class="links collapse "
                                 id="xs-components-links"
                             >
                                 <li class="link">
@@ -98,6 +104,9 @@
                                 </li>
                                 <li class="link">
                                     <a href="../components/BannerComponent.html" >BannerComponent</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../components/CategoriesComponent.html" >CategoriesComponent</a>
                                 </li>
                                 <li class="link">
                                     <a href="../components/CategoryDetailsComponent.html" >CategoryDetailsComponent</a>
@@ -115,27 +124,30 @@
                     </li>
             
             
+            
+            
                     <li class="chapter">
-                        <div class="simple">
-                            <span class="fa fa-file-code-o"></span>
-                            <span>Classes</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                    data-target="#xs-classes-links"
-                                ></span>
+                        <div class="simple menu-toggler" data-toggle="collapse"
+                                data-target="#xs-interfaces-links"
+                            >
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="fa fa-angle-down"></span>
                         </div>
-                        <ul class="links collapse in"
-                                id="xs-classes-links"
+                        <ul class="links collapse "
+                                id="xs-interfaces-links"
                             >
                                 <li class="link">
-                                    <a href="../classes/InMemoryDataService.html" >InMemoryDataService</a>
+                                    <a href="../interfaces/Category.html" >Category</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/CategoryList.html" >CategoryList</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/Product.html" >Product</a>
                                 </li>
                         </ul>
                     </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                    </li>
-            
             
             
             
@@ -149,7 +161,7 @@
             
                     <li class="divider"></li>
                     <li class="copyright">
-                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                            Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
                                         <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
                             </a>
                     </li>
@@ -167,7 +179,7 @@
                        <ul class="list">
                    
                            <li class="title">
-                               <a href="../">ng2-exercise documentation</a>
+                               <a href="../index.html">ng2-exercise documentation</a>
                            </li>
                    
                            <li class="divider"></li>
@@ -177,11 +189,8 @@
                                </div>
                    
                            <li class="chapter">
-                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <a data-type="chapter-link" href="../index.html"><span class="fa fa-home"></span>Getting started</a>
                                <ul class="links">
-                                       <li class="link">
-                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
-                                       </li>
                                        <li class="link">
                                            <a 
                                                
@@ -191,25 +200,37 @@
                                                <span class="fa fa-th"></span>Overview
                                            </a>
                                        </li>
+                                       <li class="link">
+                                         <a href="../index.html" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="./license.html"
+                                               >
+                                               <span class="fa fa-file-text-o"></span>LICENSE
+                                           </a>
+                                       </li>
                                </ul>
                            </li>
                    
+                   
                            <li class="chapter">
-                               <a data-type="chapter-link" href="./modules.html" >
-                                   <span class="fa fa-archive"></span>
-                                   <span>Modules</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                               <a data-type="chapter-link" href="../modules.html" >
+                                   <div class="menu-toggler linked" data-toggle="collapse"
                                            data-target="#modules-links"
-                                   ></span>
+                                   >
+                                       <span class="fa fa-archive"></span>
+                                       <span class="link-name">Modules</span>
+                                       <span class="fa fa-angle-down"></span>
+                                   </div>
                                </a>
-                               <ul class="links collapse in"
+                               <ul class="links collapse "
                                        id="modules-links"
                    >
                                        <li class="link">
                                            <a href="../modules/AppModule.html" >AppModule</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../modules/CategoryModule.html"  class="active" >CategoryModule</a>
+                                           <a href="../modules/CategoryModule.html"  data-type="entity-link" class="active" >CategoryModule</a>
                                        </li>
                                        <li class="link">
                                            <a href="../modules/CoreModule.html" >CoreModule</a>
@@ -218,23 +239,20 @@
                                            <a href="../modules/HomeModule.html" >HomeModule</a>
                                        </li>
                                        <li class="link">
-                                           <a href="../modules/LayoutModule.html" >LayoutModule</a>
-                                       </li>
-                                       <li class="link">
                                            <a href="../modules/SharedModule.html" >SharedModule</a>
                                        </li>
                                </ul>
                            </li>
                    
                            <li class="chapter">
-                               <div class="simple">
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#components-links"
+                   >
                                    <span class="fa fa-cogs"></span>
                                    <span>Components</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                           data-target="#components-links"
-                   ></span>
+                                   <span class="fa fa-angle-down"></span>
                                </div>
-                               <ul class="links collapse in"
+                               <ul class="links collapse "
                                        id="components-links"
                    >
                                        <li class="link">
@@ -242,6 +260,9 @@
                                        </li>
                                        <li class="link">
                                            <a href="../components/BannerComponent.html" >BannerComponent</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../components/CategoriesComponent.html" >CategoriesComponent</a>
                                        </li>
                                        <li class="link">
                                            <a href="../components/CategoryDetailsComponent.html" >CategoryDetailsComponent</a>
@@ -259,27 +280,30 @@
                            </li>
                    
                    
+                   
+                   
                            <li class="chapter">
-                               <div class="simple">
-                                   <span class="fa fa-file-code-o"></span>
-                                   <span>Classes</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                           data-target="#classes-links"
-                   ></span>
+                               <div class="simple menu-toggler" data-toggle="collapse"
+                                       data-target="#interfaces-links"
+                   >
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="fa fa-angle-down"></span>
                                </div>
-                               <ul class="links collapse in"
-                                       id="classes-links"
+                               <ul class="links collapse "
+                                       id="interfaces-links"
                    >
                                        <li class="link">
-                                           <a href="../classes/InMemoryDataService.html" >InMemoryDataService</a>
+                                           <a href="../interfaces/Category.html" >Category</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/CategoryList.html" >CategoryList</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/Product.html" >Product</a>
                                        </li>
                                </ul>
                            </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../routes.html" ><span class="fa fa-code-fork"></span>Routes</a>
-                           </li>
-                   
                    
                    
                    
@@ -293,7 +317,7 @@
                    
                            <li class="divider"></li>
                            <li class="copyright">
-                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                   Documentation generated using <a href="https://compodoc.github.io/website/" target="_blank">
                                                <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
                                    </a>
                            </li>
@@ -305,15 +329,131 @@
                <div class="content module">
                    <div class="content-data">
 
+
+
 <ol class="breadcrumb">
   <li>Modules</li>
   <li>CategoryModule</li>
 </ol>
 
 <div class="text-center">
-    <object id="demo-svg" type="image/svg+xml" data="../modules/CategoryModule/dependencies.svg" style="width: 100%; height: 250px;">
-            Your browser does not support SVG
-    </object>
+    <div id="module-graph-svg">
+        <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.40.1 (20161225.0304)
+ -->
+<!-- Title: dependencies Pages: 1 -->
+<svg width="1063pt" height="211pt"
+ viewBox="0.00 0.00 1063.00 211.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 207)">
+<title>dependencies</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-207 1059,-207 1059,4 -4,4"/>
+<text text-anchor="start" x="506.5091" y="-42.4" font-family="sans-serif" font-weight="bold" font-size="14.00" fill="#000000">Legend</text>
+<polygon fill="#ffffb3" stroke="transparent" points="293.5,-10 293.5,-30 313.5,-30 313.5,-10 293.5,-10"/>
+<text text-anchor="start" x="317.129" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Declarations</text>
+<polygon fill="#8dd3c7" stroke="transparent" points="406.5,-10 406.5,-30 426.5,-30 426.5,-10 406.5,-10"/>
+<text text-anchor="start" x="430.2251" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Module</text>
+<polygon fill="#80b1d3" stroke="transparent" points="492.5,-10 492.5,-30 512.5,-30 512.5,-10 492.5,-10"/>
+<text text-anchor="start" x="516.2812" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Bootstrap</text>
+<polygon fill="#fdb462" stroke="transparent" points="589.5,-10 589.5,-30 609.5,-30 609.5,-10 589.5,-10"/>
+<text text-anchor="start" x="613.1732" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Providers</text>
+<polygon fill="#fb8072" stroke="transparent" points="685.5,-10 685.5,-30 705.5,-30 705.5,-10 685.5,-10"/>
+<text text-anchor="start" x="709.2258" y="-15.4" font-family="sans-serif" font-size="14.00" fill="#000000"> &#160;Exports</text>
+<g id="clust1" class="cluster">
+<title>cluster_CategoryModule</title>
+<polygon fill="none" stroke="#000000" stroke-dasharray="1,5" points="8,-70 8,-195 1047,-195 1047,-70 8,-70"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CategoryModule_declarations</title>
+<polygon fill="none" stroke="#000000" points="338,-78 338,-130 1039,-130 1039,-78 338,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_CategoryModule_imports</title>
+<polygon fill="none" stroke="#000000" points="16,-78 16,-130 330,-130 330,-78 16,-78"/>
+</g>
+<!-- CategoryListComponent -->
+<g id="node1" class="node">
+<title>CategoryListComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="1031.4284,-122 876.5716,-122 876.5716,-86 1031.4284,-86 1031.4284,-122"/>
+<text text-anchor="middle" x="954" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CategoryListComponent</text>
+</g>
+<!-- CategoryModule -->
+<g id="node5" class="node">
+<title>CategoryModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="557.3669,-187 554.3669,-191 533.3669,-191 530.3669,-187 446.6331,-187 446.6331,-151 557.3669,-151 557.3669,-187"/>
+<text text-anchor="middle" x="502" y="-164.8" font-family="Times,serif" font-size="14.00" fill="#000000">CategoryModule</text>
+</g>
+<!-- CategoryListComponent&#45;&gt;CategoryModule -->
+<g id="edge1" class="edge">
+<title>CategoryListComponent&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M954,-122.2843C954,-143.3211 954,-175 954,-175 954,-175 567.4241,-175 567.4241,-175"/>
+<polygon fill="#000000" stroke="#000000" points="567.4241,-171.5001 557.4241,-175 567.424,-178.5001 567.4241,-171.5001"/>
+</g>
+<!-- CategoryDetailsComponent -->
+<g id="node2" class="node">
+<title>CategoryDetailsComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="859.3019,-122 686.6981,-122 686.6981,-86 859.3019,-86 859.3019,-122"/>
+<text text-anchor="middle" x="773" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CategoryDetailsComponent</text>
+</g>
+<!-- CategoryDetailsComponent&#45;&gt;CategoryModule -->
+<g id="edge2" class="edge">
+<title>CategoryDetailsComponent&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M773,-122.0225C773,-139.3734 773,-163 773,-163 773,-163 567.4948,-163 567.4948,-163"/>
+<polygon fill="#000000" stroke="#000000" points="567.4949,-159.5001 557.4948,-163 567.4948,-166.5001 567.4949,-159.5001"/>
+</g>
+<!-- CategoryFormComponent -->
+<g id="node3" class="node">
+<title>CategoryFormComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="668.4832,-122 505.5168,-122 505.5168,-86 668.4832,-86 668.4832,-122"/>
+<text text-anchor="middle" x="587" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CategoryFormComponent</text>
+</g>
+<!-- CategoryFormComponent&#45;&gt;CategoryModule -->
+<g id="edge3" class="edge">
+<title>CategoryFormComponent&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M531.4709,-122.1061C531.4709,-122.1061 531.4709,-140.991 531.4709,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="527.971,-140.9909 531.4709,-150.991 534.971,-140.991 527.971,-140.9909"/>
+</g>
+<!-- CategoriesComponent -->
+<g id="node4" class="node">
+<title>CategoriesComponent</title>
+<polygon fill="#ffffb3" stroke="#000000" points="487.6993,-122 346.3007,-122 346.3007,-86 487.6993,-86 487.6993,-122"/>
+<text text-anchor="middle" x="417" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">CategoriesComponent</text>
+</g>
+<!-- CategoriesComponent&#45;&gt;CategoryModule -->
+<g id="edge4" class="edge">
+<title>CategoriesComponent&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M467.0831,-122.1061C467.0831,-122.1061 467.0831,-140.991 467.0831,-140.991"/>
+<polygon fill="#000000" stroke="#000000" points="463.5832,-140.9909 467.0831,-150.991 470.5832,-140.991 463.5832,-140.9909"/>
+</g>
+<!-- SharedModule -->
+<g id="node6" class="node">
+<title>SharedModule</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="322.4231,-122 319.4231,-126 298.4231,-126 295.4231,-122 223.5769,-122 223.5769,-86 322.4231,-86 322.4231,-122"/>
+<text text-anchor="middle" x="273" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">SharedModule</text>
+</g>
+<!-- SharedModule&#45;&gt;CategoryModule -->
+<g id="edge5" class="edge">
+<title>SharedModule&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M273,-122.0225C273,-139.3734 273,-163 273,-163 273,-163 436.5655,-163 436.5655,-163"/>
+<polygon fill="#000000" stroke="#000000" points="436.5655,-166.5001 446.5655,-163 436.5655,-159.5001 436.5655,-166.5001"/>
+</g>
+<!-- RouterModule.forChild(args) -->
+<g id="node7" class="node">
+<title>RouterModule.forChild(args)</title>
+<polygon fill="#8dd3c7" stroke="#000000" points="205.7323,-122 202.7323,-126 181.7323,-126 178.7323,-122 24.2677,-122 24.2677,-86 205.7323,-86 205.7323,-122"/>
+<text text-anchor="middle" x="115" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">RouterModule.forChild(args)</text>
+</g>
+<!-- RouterModule.forChild(args)&#45;&gt;CategoryModule -->
+<g id="edge6" class="edge">
+<title>RouterModule.forChild(args)&#45;&gt;CategoryModule</title>
+<path fill="none" stroke="#000000" d="M115,-122.2843C115,-143.3211 115,-175 115,-175 115,-175 436.5523,-175 436.5523,-175"/>
+<polygon fill="#000000" stroke="#000000" points="436.5524,-178.5001 446.5523,-175 436.5523,-171.5001 436.5524,-178.5001"/>
+</g>
+</g>
+</svg>
+
+    </div>
     <div class="btn-group">
         <button id="zoom-in" class="btn btn-default btn-sm">Zoom in</button>
         <button id="reset" class="btn btn-default btn-sm">Reset</button>
@@ -325,15 +465,18 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="active">
-        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+        <a href="#info" id="info-tab" role="tab" data-toggle="tab" data-link="info">Info</a>
     </li>
+    
+
     <li>
-        <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
     </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="infos">
+    <div class="tab-pane fade active in" id="info">
+
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -356,6 +499,9 @@
                             <li class="list-group-item">
                                 <a href="../components/CategoryFormComponent.html">CategoryFormComponent</a>
                             </li>
+                            <li class="list-group-item">
+                                <a href="../components/CategoriesComponent.html">CategoriesComponent</a>
+                            </li>
                     </ul>
                 </div>
                 <div class="col-sm-3">
@@ -369,8 +515,10 @@
             </div>
         </div>
     </div>
+
+
     <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">import { NgModule } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { SharedModule } from &#x27;../shared/shared.module&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import { CategoryRoutes as routes } from &#x27;./category.routes&#x27;;
@@ -378,13 +526,15 @@ import { CategoryRoutes as routes } from &#x27;./category.routes&#x27;;
 import { CategoryListComponent } from &#x27;./category-list/category-list.component&#x27;;
 import { CategoryDetailsComponent } from &#x27;./category-details/category-details.component&#x27;;
 import { CategoryFormComponent } from &#x27;./category-form/category-form.component&#x27;;
+import { CategoriesComponent } from &#x27;./categories/categories.component&#x27;;
 
 @NgModule({
   imports: [SharedModule, RouterModule.forChild(routes)],
   declarations: [
     CategoryListComponent,
     CategoryDetailsComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    CategoriesComponent
   ]
 })
 export class CategoryModule {}
@@ -423,20 +573,17 @@ export class CategoryModule {}
 
        <script src="../js/compodoc.js"></script>
 
+       <script>var COMPODOC_CURRENT_PAGE_DEPTH = 1;</script>
+
        <script src="../js/search/search.js"></script>
        <script src="../js/search/lunr.min.js"></script>
        <script src="../js/search/search-lunr.js"></script>
 
+       <script src="../js/tabs.js"></script>
        <script src="../js/menu.js"></script>
-       <script src="../js/libs/highlight.pack.js"></script>
-       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
        <script src="../js/search/search_index.js"></script>
-       <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                hljs.initHighlightingOnLoad();
-                hljs.initLineNumbersOnLoad();
-            });
-       </script>
 
     </body>
 </html>
