@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
@@ -27,8 +26,6 @@ import 'hammerjs';
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument(),

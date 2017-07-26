@@ -3,5 +3,14 @@
 
 body {
   margin: 0;
-  background-color: #EEEEEE;
+  background-color: #eeeeee;
+}
+
+.avatar {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 40px;
+  border: 1px solid #000;
 }

@@ -1,5 +1,6 @@
 <div class="product-list">
   <md-card
+    mdTooltip="Click to go to details page" mdTooltipPosition="above"
     [routerLink]='["/category","list",product.category,product.id]'
     *ngFor="let product of products">
     <md-card-header>

@@ -1,3 +1,37 @@
-<p>
-  category-form works!
-</p>
+<md-card>
+  <h3 md-header>Add Product</h3>
+  <form
+    [formGroup]="form"
+    (ngSubmit) = "onSubmit()">
+    <p>
+      <md-input-container>
+        <input type="text" mdInput formControlName="category" placeholder="Category">
+      </md-input-container>
+    </p>
+    <p>
+      <md-input-container>
+        <input type="text" mdInput formControlName="title" placeholder="Title">
+      </md-input-container>
+    </p>
+    <p>
+      <md-input-container>
+        <input type="url" mdInput formControlName="url" placeholder="URL">
+      </md-input-container>
+    </p>
+    <p>
+      <md-input-container>
+        <textarea type="text" mdInput formControlName="description" placeholder="Description"></textarea>
+      </md-input-container>
+    </p>
+    <p>
+      <md-input-container>
+        <input type="url" mdInput formControlName="imageHref" placeholder="Image URL">
+      </md-input-container>
+    </p>
+    <p [ngStyle]="{ textAlign: 'center' }">
+      <button md-raised-button color="primary">
+        Submit
+      </button>
+    </p>
+  </form>
+</md-card>

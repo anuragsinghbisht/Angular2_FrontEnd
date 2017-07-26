@@ -7,21 +7,7 @@ import { CategoryList } from '../models/category-list';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  constructor() {}
 
-  categoryList: CategoryList = {
-    id: 0,
-    title: 'AngularJS Exercise',
-    description: '',
-    categories: [
-      { categoryName: 'Companies' },
-      { categoryName: 'Technologies' }
-    ],
-    rows: []
-  }
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
