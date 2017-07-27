@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../core/models/category';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { AppState } from '../../app.state';
+import { selectCategoryList } from '../../home/store/selectors';
 
 @Component({
   selector: 'app-categories',
@@ -7,12 +11,13 @@ import { Category } from '../../core/models/category';
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  categories: Category[] = [
-    { categoryName: 'Companies' },
-    { categoryName: 'Technologies' }
-  ];
+  categories: Category[];
 
-  constructor() { }
+  constructor(private store: Store<AppState>) {
+    store.select(selectCategoryList).subscribe(val => {
+      this.categories = val.categories;
+    });
+  }
 
   ngOnInit() {
   }

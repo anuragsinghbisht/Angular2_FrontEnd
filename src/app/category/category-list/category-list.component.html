@@ -1,7 +1,7 @@
 <div class="product-list">
   <md-card
     mdTooltip="Click to go to details page" mdTooltipPosition="above"
-    [routerLink]='["/category","list",product.category,product.id]'
+    [routerLink]='["/category","list",product.category,product._id]'
     *ngFor="let product of products">
     <md-card-header>
       <div md-card-avatar class="avatar"> {{ product.title.split("")[0] }}</div>

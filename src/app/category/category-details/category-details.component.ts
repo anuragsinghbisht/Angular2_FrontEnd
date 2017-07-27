@@ -1,5 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.state';
+import { selectCategoryList } from '../../home/store/selectors';
 
 import { Product } from '../../core/models/product';
 import { mock } from '../mock-data';
@@ -13,15 +16,16 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
   routeParamSubscribe;
   product: Product;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.routeParamSubscribe = this.route.params.subscribe(params => {
-      mock[0].rows.forEach(prod => {
-        if (prod.category === params.category && prod.id === params.id) {
-          this.product = prod;
-          console.log(this.product);
-        }
+      this.store.select(selectCategoryList).subscribe(categoryList => {
+        categoryList.rows.forEach(prod => {
+          if (prod.category === params.category && prod._id === params.id) {
+            this.product = prod;
+          }
+        });
       });
     });
   }

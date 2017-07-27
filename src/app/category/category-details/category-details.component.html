@@ -1,4 +1,4 @@
-<md-card class="product-card">
+<md-card class="product-card" *ngIf="!!product">
   <div
     class="product-image"
     [ngStyle]="{backgroundImage: 'url('+product.imageHref+')'}"></div>
