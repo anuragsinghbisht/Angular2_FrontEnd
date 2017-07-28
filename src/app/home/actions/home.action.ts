@@ -1,21 +1,21 @@
 import { Action } from '@ngrx/store';
 
-export const GET_DATA = 'GET_DATA';
-export const GET_DATA_SUCCESS = 'GET_DATA_SUCCESS';
-export const GET_DATA_FAILED = 'GET_DATA_FAILED';
+export const GET_TITLE_AND_DESCRIPTION = 'GET_TITLE_AND_DESCRIPTION';
+export const GET_TITLE_AND_DESCRIPTION_SUCCESS = 'GET_TITLE_AND_DESCRIPTION_SUCCESS';
+export const GET_TITLE_AND_DESCRIPTION_FAILED = 'GET_TITLE_AND_DESCRIPTION_FAILED';
 
-export class GetData implements Action {
-  readonly type = GET_DATA;
+export class GetTitleAndDescription implements Action {
+  readonly type = GET_TITLE_AND_DESCRIPTION;
 }
 
-export class GetDataSuccess implements Action {
-  readonly type = GET_DATA_SUCCESS;
+export class GetTitleAndDescriptionSuccess implements Action {
+  readonly type = GET_TITLE_AND_DESCRIPTION_SUCCESS;
   constructor(public payload: any) {}
 }
 
-export class GetDataFailed implements Action {
-  readonly type = GET_DATA_FAILED;
+export class GetTitleAndDescriptionFailed implements Action {
+  readonly type = GET_TITLE_AND_DESCRIPTION_FAILED;
   constructor(public payload: any) {}
 }
 
-export type All = GetData | GetDataSuccess | GetDataFailed;
+export type All = GetTitleAndDescription | GetTitleAndDescriptionSuccess | GetTitleAndDescriptionFailed;

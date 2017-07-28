@@ -1,7 +1,7 @@
-import { CategoryList } from '../../core/models/category-list';
+import { InfoModel } from '../../core/models/info.model';
 
 export interface HomeState {
-  categoryList: CategoryList;
+  info: InfoModel;
   loading: boolean;
   error: string;
 }

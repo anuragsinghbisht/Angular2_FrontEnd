@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import * as FormActions from '../actions/form.action';
+import { AppState } from '../../app.state';
+import { selectFormFeature } from '../store/selectors';
 
 @Component({
   selector: 'app-category-form',
@@ -9,8 +12,11 @@ import { Router } from '@angular/router';
 })
 export class CategoryFormComponent implements OnInit {
   form;
+  loading: boolean;
+  error: string;
+  isSuccessfull: boolean;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {
     this.form = fb.group({
       category: ['', Validators.required],
       title: ['', Validators.required],
@@ -18,14 +24,18 @@ export class CategoryFormComponent implements OnInit {
       description: ['', Validators.required],
       imageHref: ['', Validators.required]
     });
+    this.store.select(selectFormFeature).subscribe(data => {
+      this.loading = data.loading;
+      this.error = data.error;
+      this.isSuccessfull = data.isSuccessfull;
+    })
   }
 
   ngOnInit() {}
 
   onSubmit() {
     if (this.form.valid) {
-      console.log(this.form.value);
-      this.router.navigate(['/category', 'list']);
+      this.store.dispatch(new FormActions.SubmitProduct(this.form.value));
     }
   }
 }

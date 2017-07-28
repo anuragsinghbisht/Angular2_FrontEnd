@@ -9,11 +9,6 @@ import { WebService } from './core/services/web.service';
 @Injectable()
 export class AppEffects {
 
-  @Effect() getData$: Observable<Action> = this.actions
-  .ofType(HomeActions.GET_DATA)
-  .switchMap((action: Action) => this.webService.getData())
-  .map((data: any) => (new HomeActions.GetDataSuccess(data)))
-
   constructor(
     private actions: Actions,
     private webService: WebService,

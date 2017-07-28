@@ -3,7 +3,8 @@ import { Category } from '../../core/models/category';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { AppState } from '../../app.state';
-import { selectCategoryList } from '../../home/store/selectors';
+import { selectCategoryFeature } from '../store/selectors';
+import * as CategoryActions from '../actions/category.action';
 
 @Component({
   selector: 'app-categories',
@@ -12,10 +13,15 @@ import { selectCategoryList } from '../../home/store/selectors';
 })
 export class CategoriesComponent implements OnInit {
   categories: Category[];
+  loading: boolean;
+  error: string;
 
   constructor(private store: Store<AppState>) {
-    store.select(selectCategoryList).subscribe(val => {
-      this.categories = val.categories;
+    store.dispatch(new CategoryActions.GetCategory());
+    store.select(selectCategoryFeature).subscribe(val => {
+      this.categories = val.categoryList;
+      this.loading = val.loading;
+      this.error = val.error;
     });
   }
 

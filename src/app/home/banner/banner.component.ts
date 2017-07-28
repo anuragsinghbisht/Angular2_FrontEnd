@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CategoryList } from '../../core/models/category-list';
+import { InfoModel } from '../../core/models/info.model';
 import { WebService } from '../../core/services/web.service';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as HomeActions from '../actions/home.action';
 import { AppState } from '../../app.state';
-import { selectCategoryList, selectLoading, selectError } from '../store/selectors';
+import { selectInformation, selectLoading, selectError } from '../store/selectors';
 
 @Component({
   selector: 'app-banner',
@@ -14,14 +14,14 @@ import { selectCategoryList, selectLoading, selectError } from '../store/selecto
 })
 export class BannerComponent implements OnInit {
 
-  categoryList: CategoryList;
+  info: InfoModel;
   loading= true;
   error = '';
 
   constructor(private webService: WebService, private store: Store<AppState>) {
-    store.dispatch(new HomeActions.GetData());
-    store.select(selectCategoryList).subscribe(currentValue => {
-      this.categoryList = currentValue;
+    store.dispatch(new HomeActions.GetTitleAndDescription());
+    store.select(selectInformation).subscribe(currentValue => {
+      this.info = currentValue;
     });
     store.select(selectLoading).subscribe(currentValue => {
       this.loading = currentValue;

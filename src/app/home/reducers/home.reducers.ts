@@ -5,12 +5,10 @@ import { HomeState } from '../store/home.state';
 export type Action = HomeActions.All;
 
 const initialState: HomeState = {
-  categoryList: {
-    _id: '',
+  info: {
+    id: '',
     title: '',
-    description: '',
-    categories: [],
-    rows: []
+    description: ''
   },
   loading: true,
   error: null
@@ -18,29 +16,22 @@ const initialState: HomeState = {
 
 export function homeReducer(state: HomeState = initialState, action: Action) {
   switch (action.type) {
-    case HomeActions.GET_DATA: {
+    case HomeActions.GET_TITLE_AND_DESCRIPTION: {
       const newState = {
         ...state,
         loading: true
       };
       return newState;
     }
-    case HomeActions.GET_DATA_SUCCESS: {
-      const categories = action.payload[0].rows.reduce((cat, row) => {
-        if (!cat.some(e => e.categoryName === row.category)) {
-          cat.push({categoryName: row.category});
-        }
-        return cat;
-      }, []);
-      const categoryList = { ...action.payload[0], categories };
+    case HomeActions.GET_TITLE_AND_DESCRIPTION_SUCCESS: {
       const newState = {
         ...state,
-        categoryList,
+        info: action.payload,
         loading: false
       };
       return newState;
     }
-    case HomeActions.GET_DATA_FAILED: {
+    case HomeActions.GET_TITLE_AND_DESCRIPTION_FAILED: {
       const newState = {
         ...state,
         loading: false,

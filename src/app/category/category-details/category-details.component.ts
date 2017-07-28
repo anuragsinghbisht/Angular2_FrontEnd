@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app.state';
-import { selectCategoryList } from '../../home/store/selectors';
 
+import * as ProductActions from '../actions/product.action';
+import { AppState } from '../../app.state';
+import { selectProductFeature } from '../store/selectors';
 import { Product } from '../../core/models/product';
-import { mock } from '../mock-data';
 
 @Component({
   selector: 'app-category-details',
@@ -20,12 +20,14 @@ export class CategoryDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeParamSubscribe = this.route.params.subscribe(params => {
-      this.store.select(selectCategoryList).subscribe(categoryList => {
-        categoryList.rows.forEach(prod => {
-          if (prod.category === params.category && prod._id === params.id) {
-            this.product = prod;
-          }
-        });
+      this.store.dispatch(new ProductActions.GetProduct({
+        category: params.category,
+        productId: params.id
+      }));
+      this.store.select(selectProductFeature).subscribe(data => {
+        if (data && data.product.length) {
+          this.product = data.product[0];
+        }
       });
     });
   }

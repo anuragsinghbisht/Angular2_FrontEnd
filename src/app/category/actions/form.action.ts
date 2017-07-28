@@ -10,12 +10,12 @@ export class SubmitProduct implements Action {
 }
 
 export class SubmitProductSuccess implements Action {
-  readonly type = SUBMIT_PRODUCT;
+  readonly type = SUBMIT_PRODUCT_SUCCESS;
   constructor(public payload: any) {}
 }
 
 export class SubmitProductFailed implements Action {
-  readonly type = SUBMIT_PRODUCT;
+  readonly type = SUBMIT_PRODUCT_FAILED;
   constructor(public payload: any) {}
 }
 

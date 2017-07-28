@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app.state';
-import { selectCategoryList } from '../../home/store/selectors';
 
+import * as ProductListActions from '../actions/product-list.action';
+import { AppState } from '../../app.state';
+import { selectProductListFeature } from '../store/selectors';
 import { Product } from '../../core/models/product';
-import { mock } from '../mock-data';
 
 @Component({
   selector: 'app-category-list',
@@ -21,8 +21,9 @@ export class CategoryListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeChangeSubscribe = this.route.params.subscribe(params => {
-      this.store.select(selectCategoryList).subscribe(categoryList => {
-        this.products = categoryList.rows.filter(product => product.category === params.category);
+      this.store.dispatch(new ProductListActions.GetProducts(params.category));
+      this.store.select(selectProductListFeature).subscribe(data => {
+        this.products = data.products;
       })
     })
   }
