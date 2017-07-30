@@ -9,7 +9,10 @@ const initialState: ProductState = {
 
 export type Action = ProductActions.All;
 
-export const productReducer = (state: ProductState = initialState, action: Action) => {
+export function productReducer(
+  state: ProductState = initialState,
+  action: Action
+) {
   switch (action.type) {
     case ProductActions.GET_PRODUCT: {
       return {
@@ -29,7 +32,7 @@ export const productReducer = (state: ProductState = initialState, action: Actio
         ...state,
         loading: false,
         error: action.payload
-      }
+      };
     }
   }
 }

@@ -9,7 +9,7 @@ const initialState: FormState = {
 
 export type Action = FormAction.All;
 
-export const formReducer = (state: FormState = initialState, action: Action) => {
+export function formReducer(state: FormState = initialState, action: Action) {
   switch (action.type) {
     case FormAction.SUBMIT_PRODUCT: {
       return {
@@ -34,4 +34,4 @@ export const formReducer = (state: FormState = initialState, action: Action) => 
     default:
       return state;
   }
-};
+}

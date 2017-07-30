@@ -9,7 +9,10 @@ const initialState: ProductListState = {
 
 export type Action = ProductListActions.All;
 
-export const productListReducer = (state: ProductListState = initialState, action: Action) => {
+export function productListReducer(
+  state: ProductListState = initialState,
+  action: Action
+) {
   switch (action.type) {
     case ProductListActions.GET_PRODUCTS: {
       return {
