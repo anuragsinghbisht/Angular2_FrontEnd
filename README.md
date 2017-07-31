@@ -1,31 +1,78 @@
-# Ng2Exercise
+# Angular 2+ Front End Example 
 
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg?style=flat-square)](https://travis-ci.org/anuragsinghbisht/angular2)
+ [![Travis](https://img.shields.io/travis/rust-lang/rust.svg?style=flat-square)](https://travis-ci.org/anuragsinghbisht/Angular2_FrontEnd) [![Website](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?label=website&style=flat-square)](https://angular-backend.herokuapp.com/)
 
+## Project Setup
+- Clone repository `https://github.com/anuragsinghbisht/Angular2_FrontEnd.git`
+- Dependencies : `node > 6.9.1` & `@angular/cli`
+- Install dependencies: `npm install`
+- Start Server: `npm start`
+- Build project: `npm run build`
+- Generating Documentation: `npm run compodoc`
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.3.
+`Note - Backend for this project is another github repository.` 
+[Angular Backend!](https://github.com/anuragsinghbisht/Angular2_Backend) 
 
-## Development server
+## Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- *Home Page* : Displays Title And Description. 
+- *Navigation Panel* : Icons for Home Page, Add Product & Categories Page
+- *Categories Page* : Displays categories
+- *Category List Page* : Display list of product related to particular category
+- *Category Details Page*: Displayes details of selected product
+- *Add Product Page* : Form to enter product details 
 
-## Code scaffolding
+## Technology Stack
+- @angular/cli
+- angular-material
+- @ngrx/store, @ngrx/core, @ngrx/effects
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+## Folder Structure
+```
+app
+├──  app.module.ts
+├──  app.component[ts/html/css]
+├──  app.routes.ts
+├──  app.reducers.ts
+├──  app.state.ts
+├──  app.effects.ts
+├──   core
+|   ├── core.module.ts
+|   ├── services
+|   |   └── web.service.ts
+|   ├── models
+|   |   └──  category/product/info.model
+|   └── header [header.component]
+├──   shared
+|   └──  shared.module.ts
+├──   home
+|   ├── home.module.ts
+|   ├── home.routes.ts
+|   ├── actions
+|   |   └── home.action.ts
+|   ├── reducers
+|   |   └──  home.reducers.ts
+|   ├── effects
+|   |   └──  home.effects.ts
+|   ├── store
+|   |   └──  home.state.ts / selectors.ts
+|   └── banner [banner.component]
+├──   category
+|   ├── category.module.ts
+|   ├── category.routes.ts
+|   ├── actions
+|   |   └── [category/form/product-list/product].action.ts
+|   ├── reducers
+|   |   └── [category/form/product-list/product].reducer.ts
+|   ├── effects
+|   |   └── [category/product].effects.ts
+|   ├── store
+|   |   ├──  selectors.ts
+|   |   └── [category/form/product-list/product].state.ts
+|   ├── categories  [categories.component]
+|   ├── category-details  [category-details.component]
+|   ├── category-form  [category-form.component] 
+|   └── category-list (cateory-list.component)
+└── mock-list.ts
+```
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
