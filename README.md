@@ -122,6 +122,26 @@ app
 - Import *material prebuilt themes* in the *style.css*
     `@import "~@angular/material/prebuilt-themes/indigo-pink.css";`
 
+### Add @ngrx to the angular project
+- Install @ngrx/core @ngrx/store @nrgx/effects @ngrx/store-devtools
+    ```
+    npm i -S @ngrx/core @ngrx/store @ngrx/effects @ngrx/store-devtools ngrx-store-freeze
+    ```
+- Import `ngrx modules` in *app.module.ts*
+    ```typescript
+        import { StoreModule } from '@ngrx/store';
+        import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+        import { EffectsModule } from '@ngrx/effects';
+    ```
+- Add `modules` to the `AppModule` ( reducers/metaReducers/AppEffects to be added later)
+    ```typescript
+        imports: [
+            StoreModule.forRoot({}),
+            StoreDevtoolsModule.instrument(),
+            EffectsModule.forRoot([]),
+        ]
+    ```
+
 ### Create *Shared* module to contain components shared by different modules in application
 - Create *core* module `ng g m shared` using *@angular/cli*
 - Add common modules to be shared across application.
@@ -217,6 +237,14 @@ app
     ```
 - Import `WebService` and provide *web.service.ts* in the *core.module.ts*
     `providers: [WebService],`
+- Create `Models` for the application in the `core` module
+    - `Exercise Model` - Create `core/models/exercise.model.ts`
+        ```typescript
+        export interface Exercise {
+          title: string;
+          description: string;
+        }
+        ```
 ### Create *Home* module to display home page 
 - Create *home* module `ng g m home`
 - Create `BannerComponent` to contain title and description `ng g c home/components/banner`
@@ -266,4 +294,148 @@ app
     <app-header></app-header>
     <router-outlet></router-outlet>
     ```
+- Add `actions` folder in home. Inside *actions* folder, create *home.actions.ts* file.
+    ```typescript
+    import { Action } from '@ngrx/store';
 
+    export const GET_TITLE_AND_DESCRIPTION = 'GET_TITLE_AND_DESCRIPTION';
+    export const GET_TITLE_AND_DESCRIPTION_SUCCESS = 'GET_TITLE_AND_DESCRIPTION_SUCCESS';
+    export const GET_TITLE_AND_DESCRIPTION_FAILED = 'GET_TITLE_AND_DESCRIPTION_FAILED';
+    
+    export class GetTitleAndDescription implements Action {
+      readonly type = GET_TITLE_AND_DESCRIPTION;
+    }
+    export class GetTitleAndDescriptionSuccess implements Action {
+      readonly type = GET_TITLE_AND_DESCRIPTION_SUCCESS;
+      constructor(public payload: any) {}
+    }
+    export class GetTitleAndDescriptionFailed implements Action {
+      readonly type = GET_TITLE_AND_DESCRIPTION_FAILED;
+      constructor(public payload: any) {}
+    }
+    export type All = GetTitleAndDescription | GetTitleAndDescriptionFailed | GetTitleAndDescriptionSuccess;
+    ```
+- Add `state` folder in the `home`. Create `home.state.ts` 
+    ```typescript
+    import { Exercise } from '../../core/models/exercise.model';
+    export interface HomeState {
+      exercise: Exercise;
+      loading: boolean;
+      error: string;
+    }
+
+    ```
+- Add `reducers` folder in the `home`. Create `home.reducers.ts`.
+    ```typescript
+    import * as HomeActions from '../actions/home.actions';
+    import { HomeState } from '../state/home.state';
+    import { Exercise } from '../../core/models/exercise.model';
+    
+    export type Action = HomeActions.All;
+    
+    const initialState: HomeState = {
+      exercise: {} as Exercise,
+      loading: false,
+      error: null
+    };
+    
+    export function homeReducer(state: HomeState = initialState, action: Action) {
+      switch (action.type) {
+        case HomeActions.GET_TITLE_AND_DESCRIPTION: {
+          return {
+            ...state,
+            loading: true
+          };
+        }
+        case HomeActions.GET_TITLE_AND_DESCRIPTION_SUCCESS: {
+          return {
+            ...state,
+            loading: false,
+            exercise: action.payload
+          };
+        }
+        case HomeActions.GET_TITLE_AND_DESCRIPTION_FAILED: {
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
+            exercise: {} as Exercise
+          };
+        }
+        default: {
+          return state;
+        }
+      }
+    }
+    ```
+- Add `selectors.ts` to create function which will return the home state from the store.
+    ```typescript
+        import { createSelector, createFeatureSelector } from '@ngrx/store';
+        import { HomeState } from './home.state';
+        
+        export const selectHomeState = createFeatureSelector<HomeState>('home');
+    ```
+- Create `app.state.ts` to store the store at the app level.
+    ```typescript
+        import { HomeState } from './home/state/home.state';
+
+        export interface AppState {
+          home: HomeState;
+        }
+    ```
+- Create `app.reducers.ts`
+    ```typescript
+        import { combineReducers, compose } from '@ngrx/store';
+        import { AppState } from './app.state';
+        import { storeFreeze } from 'ngrx-store-freeze';
+        
+        import { homeReducer } from './home/reducers/home.reducers';
+        
+        export const reducers = {
+          home: homeReducer
+        };
+        
+        export const metaReducers = [ storeFreeze ];
+    ```
+- Add `reducers` in the `AppModule`
+    ```typescript
+        import { reducers, metaReducers } from './app.reducers';
+    ```
+- Add `reducers` and `metaReducers` to `StoreModule` in `AppModule`
+    ```typescript
+        StoreModule.forRoot(reducers, { metaReducers }),
+    ```
+- Add `home.effects.ts` to listen to the `GET_TITLE_AND_DESCRIPTION` action.
+    ```typescript
+        import { Injectable } from '@angular/core';
+        import { Effect, Actions } from '@ngrx/effects';
+        import { Action, Store } from '@ngrx/store';
+        import { Observable } from 'rxjs/Observable';
+        
+        import { AppState } from '../../app.state';
+        import { WebService } from '../../core/services/web.service';
+        import * as HomeActions from '../actions/home.actions';
+        
+        @Injectable()
+        export class HomeEffects {
+        
+          @Effect() getTitleAndDescription$: Observable<HomeActions.All> = this.actions
+            .ofType(HomeActions.GET_TITLE_AND_DESCRIPTION)
+            .switchMap((action: HomeActions.All) => this.webService.getTitleAndDescription())
+            .map((data: any) => (new HomeActions.GetTitleAndDescriptionSuccess(data)));
+        
+          constructor(
+            private store: Store<AppState>,
+            private webService: WebService,
+            private actions: Actions
+          ) {}
+        }
+    ```
+- Add `HomeEffects` to the `HomeModule`
+    ```typescript
+    import { EffectsModule } from '@ngrx/effects';
+    import { HomeEffects } from './effects/home.effects';
+    ```
+    ```typescript
+    imports: [ EffectsModule.forFeature([HomeEffects])],
+    ```
