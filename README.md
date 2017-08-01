@@ -10,77 +10,85 @@
 - Build project: `npm run build`
 - Generating Documentation: `npm run compodoc`
 
-`Note - Backend for this project is another github repository.` 
-[Angular Backend!](https://github.com/anuragsinghbisht/Angular2_Backend) 
+`Note - Backend for this project is another github repository.`
+[Angular Backend!](https://github.com/anuragsinghbisht/Angular2_Backend)
 
 ## Overview
 
-- *Home Page* : Displays Title And Description. 
+- *Home Page* : Displays Title And Description.
 - *Navigation Panel* : Icons for Home Page, Add Product & Categories Page
 - *Categories Page* : Displays categories
 - *Category List Page* : Display list of product related to particular category
 - *Category Details Page*: Displayes details of selected product
-- *Add Product Page* : Form to enter product details 
+- *Add Product Page* : Form to enter product details
 
 ## Technology Stack
 - @angular/cli
 - angular-material
 - @ngrx/store, @ngrx/core, @ngrx/effects
 
+## References
+- [Angular Spree](https://github.com/aviabird/angularspree)
+- [Ngrx Documentation](https://github.com/ngrx/platform)
+- [Angular Documentation](https://angular.io/)
+- [Angular Material](https://material.angular.io/)
+
 ## Folder Structure
 ```
 app
-├──  app.module.ts
+├──   core
+|   ├── layout
+|   |   └── header ( header.component.[ts/html/css] )
+|   ├── services
+|   |   └── web.service.ts
+|   ├── models
+|   |   └──  [category/exercise/product].model.ts
+|   └── core.module.ts
+├──   shared
+|   └──  shared.module.ts
+├──   home
+|   ├── components
+|   |   └── banner ( banner.component.[ts/html/css] )
+|   ├── actions
+|   |   └── home.actions.ts
+|   ├── reducers
+|   |   └──  home.reducers.ts
+|   ├── effects
+|   |   └──  home.effects.ts
+|   ├── state
+|   |   └──  home.state.ts / selectors.ts
+|   ├── home.routes.ts
+|   └── home.module.ts
+├──   category
+|   ├── actions
+|   |   └── [category/product-form/product-list/product].actions.ts
+|   ├── components
+|   |   ├── category-list ( category-list.component.[ts/html/css] )
+|   |   ├── product-details ( product-details.component.[ts/html/css] )
+|   |   ├── product-form ( product-form.component.[ts/html/css] )
+|   |   └── product-list ( product-list.component.[ts/html/css] )
+|   ├── reducers
+|   |   └── [category/product-form/product-list/product].reducers.ts
+|   ├── effects
+|   |   └── category.effects.ts
+|   ├── state
+|   |   ├──  selectors.ts
+|   |   └── [category/product-form/product-list/product].state.ts
+|   ├── category.routes.ts
+|   └── category.module.ts
 ├──  app.component[ts/html/css]
 ├──  app.routes.ts
 ├──  app.reducers.ts
 ├──  app.state.ts
 ├──  app.effects.ts
-├──   core
-|   ├── core.module.ts
-|   ├── services
-|   |   └── web.service.ts
-|   ├── models
-|   |   └──  category/product/info.model
-|   └── header [header.component]
-├──   shared
-|   └──  shared.module.ts
-├──   home
-|   ├── home.module.ts
-|   ├── home.routes.ts
-|   ├── actions
-|   |   └── home.action.ts
-|   ├── reducers
-|   |   └──  home.reducers.ts
-|   ├── effects
-|   |   └──  home.effects.ts
-|   ├── store
-|   |   └──  home.state.ts / selectors.ts
-|   └── banner [banner.component]
-├──   category
-|   ├── category.module.ts
-|   ├── category.routes.ts
-|   ├── actions
-|   |   └── [category/form/product-list/product].action.ts
-|   ├── reducers
-|   |   └── [category/form/product-list/product].reducer.ts
-|   ├── effects
-|   |   └── [category/product].effects.ts
-|   ├── store
-|   |   ├──  selectors.ts
-|   |   └── [category/form/product-list/product].state.ts
-|   ├── categories  [categories.component]
-|   ├── category-details  [category-details.component]
-|   ├── category-form  [category-form.component] 
-|   └── category-list (cateory-list.component)
-└── mock-list.ts
+└──  app.module.ts
 ```
 ## Tutorial
 `Note : This tutorial is step-by-step guide to integrate angular project with @ngrx. Basic knowledge of angular2+ and @angular/cli is required to understand the code.`
 
 ### Create Project using @angular/cli
 - Create Project using *@angular/cli* (v 1.2.1) & install project dependencies
-    ```
+    ```node
     ng new angular-frontend
     cd angular-frontend
     npm install
@@ -100,10 +108,10 @@ app
 
 ### Add angular-material to the project
 - Install *@angular/material* & *material-design-icons*
+    ```node
+    npm i -S @angular/material @angular/cdk material-design-icons
     ```
-    npm i -S @angular/material @angular/cdk material-design-icons 
-    ```
-- To show icons available in material-icons, we need to add *material-icons.css* in *.angular-cli.json*. 
+- To show icons available in material-icons, we need to add *material-icons.css* in *.angular-cli.json*.
     ```typescript
     "styles": [
         "../node_modules/material-design-icons/iconfont/material-icons.css",
@@ -150,7 +158,7 @@ app
     import { CommonModule } from '@angular/common';
     import { MaterialModule } from '@angular/material';
     import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-    
+
     @NgModule({
       imports: [FormsModule, ReactiveFormsModule, CommonModule, MaterialModule],
       declarations: [],
@@ -161,11 +169,11 @@ app
 - Add *SharedModule* and remove *MaterialModule* from *app.module.ts*  
     ```typescript
     import { SharedModule } from './shared/shared.module';
-    ... 
-        imports: [SharedModule] 
+    ...
+        imports: [SharedModule]
     ...
     ```
-### Create  *Core* Module to contain application-wide services/models/layout
+### Create *Core* Module to contain application-wide services/models/layout
 - Create *core* module `ng g m core` using *@angular/cli*. Update *core.module.ts* to contain *SharedModule* which contains *MaterialModule.
     ```typescript
         import { SharedModule } from '../shared/shared.module'
@@ -197,37 +205,37 @@ app
         <app-header></app-header>
     ```
 - Create *web.service.ts* to retrieve data from backend `ng g m core/services/web`
-- 
+-
     ```typescript
     import { Injectable } from '@angular/core';
     import { Http } from '@angular/http';
-    
+
     @Injectable()
     export class WebService {
       BASE_URL = 'https://angular-backend.herokuapp.com/api';
-    
+
       constructor(private http: Http) {}
-    
+
       getTitleAndDescription() {
         return this.http.get(this.BASE_URL).map(res => res.json());
       }
-    
+
       getCategories() {
         return this.http.get(`${this.BASE_URL}/category`).map(res => res.json());
       }
-    
+
       getProducts(category) {
         return this.http
           .get(`${this.BASE_URL}/${category}/product`)
           .map(res => res.json());
       }
-    
+
       getProduct({ category, productId }) {
         return this.http
           .get(`${this.BASE_URL}/${category}/product/${productId}`)
           .map(res => res.json());
       }
-    
+
       submitProduct(product) {
         return this.http
           .post(`${this.BASE_URL}/product`, product)
@@ -270,7 +278,7 @@ app
               imageHref: string;
             }
         ```
-### Create *Home* module to display home page 
+### Create *Home* module to display home page
 - Create *home* module `ng g m home`
 - Create `BannerComponent` to contain title and description `ng g c home/components/banner`
 - Create *app.routes.ts* which contains routes array for the entire application.
@@ -302,9 +310,9 @@ app
     import { SharedModule } from '../shared/shared.module';
     import { BannerComponent } from './components/banner/banner.component';
     import { RouterModule } from '@angular/router';
-    
+
     import { HomeRoutes as routes } from './home.routes';
-    
+
     @NgModule({
       imports: [
         SharedModule,
@@ -326,7 +334,7 @@ app
     export const GET_TITLE_AND_DESCRIPTION = 'GET_TITLE_AND_DESCRIPTION';
     export const GET_TITLE_AND_DESCRIPTION_SUCCESS = 'GET_TITLE_AND_DESCRIPTION_SUCCESS';
     export const GET_TITLE_AND_DESCRIPTION_FAILED = 'GET_TITLE_AND_DESCRIPTION_FAILED';
-    
+
     export class GetTitleAndDescription implements Action {
       readonly type = GET_TITLE_AND_DESCRIPTION;
     }
@@ -340,7 +348,7 @@ app
     }
     export type All = GetTitleAndDescription | GetTitleAndDescriptionFailed | GetTitleAndDescriptionSuccess;
     ```
-- Add `state` folder in the `home`. Create `home.state.ts` 
+- Add `state` folder in the `home`. Create `home.state.ts`
     ```typescript
     import { Exercise } from '../../core/models/exercise.model';
     export interface HomeState {
@@ -355,15 +363,15 @@ app
     import * as HomeActions from '../actions/home.actions';
     import { HomeState } from '../state/home.state';
     import { Exercise } from '../../core/models/exercise.model';
-    
+
     export type Action = HomeActions.All;
-    
+
     const initialState: HomeState = {
       exercise: {} as Exercise,
       loading: false,
       error: null
     };
-    
+
     export function homeReducer(state: HomeState = initialState, action: Action) {
       switch (action.type) {
         case HomeActions.GET_TITLE_AND_DESCRIPTION: {
@@ -397,7 +405,7 @@ app
     ```typescript
         import { createSelector, createFeatureSelector } from '@ngrx/store';
         import { HomeState } from './home.state';
-        
+
         export const selectHomeState = createFeatureSelector<HomeState>('home');
     ```
 - Create `app.state.ts` to store the store at the app level.
@@ -413,13 +421,13 @@ app
         import { combineReducers, compose } from '@ngrx/store';
         import { AppState } from './app.state';
         import { storeFreeze } from 'ngrx-store-freeze';
-        
+
         import { homeReducer } from './home/reducers/home.reducers';
-        
+
         export const reducers = {
           home: homeReducer
         };
-        
+
         export const metaReducers = [ storeFreeze ];
     ```
 - Add `reducers` in the `AppModule`
@@ -436,19 +444,19 @@ app
         import { Effect, Actions } from '@ngrx/effects';
         import { Action, Store } from '@ngrx/store';
         import { Observable } from 'rxjs/Observable';
-        
+
         import { AppState } from '../../app.state';
         import { WebService } from '../../core/services/web.service';
         import * as HomeActions from '../actions/home.actions';
-        
+
         @Injectable()
         export class HomeEffects {
-        
+
           @Effect() getTitleAndDescription$: Observable<HomeActions.All> = this.actions
             .ofType(HomeActions.GET_TITLE_AND_DESCRIPTION)
             .switchMap((action: HomeActions.All) => this.webService.getTitleAndDescription())
             .map((data: any) => (new HomeActions.GetTitleAndDescriptionSuccess(data)));
-        
+
           constructor(
             private store: Store<AppState>,
             private webService: WebService,
@@ -472,7 +480,7 @@ app
     import { selectHomeState } from '../../state/selectors';
     import { Exercise } from '../../../core/models/exercise.model';
     import * as HomeActions from '../../actions/home.actions';
-    
+
     @Component({
       selector: 'app-banner',
       templateUrl: './banner.component.html',
@@ -482,9 +490,9 @@ app
       exercise: Exercise;
       loading: boolean;
       error: string;
-    
+
       constructor(private store: Store<AppState>) {}
-    
+
       ngOnInit() {
         this.store.dispatch(new HomeActions.GetTitleAndDescription());
         this.store.select(selectHomeState).subscribe(state => {
@@ -548,7 +556,7 @@ app
         import { ProductListComponent } from './components/product-list/product-list.component';
         import { ProductDetailsComponent } from './components/product-details/product-details.component';
         import { ProductFormComponent } from './components/product-form/product-form.component';
-        
+
         export const CategoryRoutes: Routes = [
           { path: 'list', component: CategoryListComponent },
           { path: 'list/:category', component: ProductListComponent },
@@ -566,7 +574,7 @@ app
         import { ProductDetailsComponent } from './components/product-details/product-details.component';
         import { ProductFormComponent } from './components/product-form/product-form.component';
         import { CategoryRoutes as routes } from './category.routes';
-        
+
         @NgModule({
           imports: [
             SharedModule,
@@ -575,30 +583,30 @@ app
           declarations: [CategoryListComponent, ProductListComponent, ProductDetailsComponent, ProductFormComponent]
         })
         export class CategoryModule { }
-    ``` 
-- Create `action` files for all four components 
+    ```
+- Create `action` files for all four components
     - **app/category/actions/category.actions.ts**
     ```typescript
         import { Action } from '@ngrx/store';
-        
+
         export const  GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
         export const  GET_ALL_CATEGORIES_SUCCESS = 'GET_ALL_CATEGORIES_SUCCESS';
         export const  GET_ALL_CATEGORIES_FAILED = 'GET_ALL_CATEGORIES_FAILED';
-        
+
         export class GetAllCategories implements Action {
           readonly type = GET_ALL_CATEGORIES;
         }
-        
+
         export class GetAllCategoriesSuccess implements Action {
           readonly type = GET_ALL_CATEGORIES_SUCCESS;
           constructor(public payload: any) {}
         }
-        
+
         export class GetAllCategoriesFailed implements Action {
           readonly type = GET_ALL_CATEGORIES_FAILED;
           constructor(public payload: any) {}
         }
-        
+
         export type All = GetAllCategories | GetAllCategoriesSuccess | GetAllCategoriesFailed;
 
     ```
@@ -609,22 +617,22 @@ app
         export const  GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
         export const  GET_ALL_PRODUCTS_SUCCESS = 'GET_ALL_PRODUCTS_SUCCESS';
         export const  GET_ALL_PRODUCTS_FAILED = 'GET_ALL_PRODUCTS_FAILED';
-        
+
         export class GetAllProducts implements Action {
           readonly type = GET_ALL_PRODUCTS;
           constructor(public payload: any) {}
         }
-        
+
         export class GetAllProductsSuccess implements Action {
           readonly type = GET_ALL_PRODUCTS_SUCCESS;
           constructor(public payload: any) {}
         }
-        
+
         export class GetAllProductsFailed implements Action {
           readonly type = GET_ALL_PRODUCTS_FAILED;
           constructor(public payload: any) {}
         }
-        
+
         export type All = GetAllProducts | GetAllProductsSuccess | GetAllProductsFailed;
 
     ```
@@ -635,47 +643,47 @@ app
         export const  GET_PRODUCT = 'GET_PRODUCT';
         export const  GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
         export const  GET_PRODUCT_FAILED = 'GET_PRODUCT_FAILED';
-        
+
         export class GetProduct implements Action {
           readonly type = GET_PRODUCT;
           constructor(public payload: any) {}
         }
-        
+
         export class GetProductSuccess implements Action {
           readonly type = GET_PRODUCT_SUCCESS;
           constructor(public payload: any) {}
         }
-        
+
         export class GetProductFailed implements Action {
           readonly type = GET_PRODUCT_FAILED;
           constructor(public payload: any) {}
         }
-        
+
         export type All = GetProduct | GetProductSuccess | GetProductFailed;
     ```
     - **app/category/actions/product-form.actions.ts**
     ```typescript
         import { Action } from '@ngrx/store';
-        
+
         export const  SUBMIT_PRODUCT = 'SUBMIT_PRODUCT';
         export const  SUBMIT_PRODUCT_SUCCESS = 'SUBMIT_PRODUCT_SUCCESS';
         export const  SUBMIT_PRODUCT_FAILED = 'SUBMIT_PRODUCT_FAILED';
-        
+
         export class SubmitProduct implements Action {
           readonly type = SUBMIT_PRODUCT;
           constructor(public payload: any) {}
         }
-        
+
         export class SubmitProductSuccess implements Action {
           readonly type = SUBMIT_PRODUCT_SUCCESS;
           constructor(public payload: any) {}
         }
-        
+
         export class SubmitProductFailed implements Action {
           readonly type = SUBMIT_PRODUCT_FAILED;
           constructor(public payload: any) {}
         }
-        
+
         export type All = SubmitProduct | SubmitProductSuccess | SubmitProductFailed;
     ```
 - Create state files for the 4 components
@@ -704,7 +712,7 @@ app
     - **app/category/state/product.state.ts**
     ```typescript
         import { Product } from '../../core/models/product.model';
-        
+
         export interface ProductState {
           product: Product[];
           loading: boolean;
@@ -714,7 +722,7 @@ app
     - **app/category/state/product-form.state.ts**
     ```typescript
         import { Product } from '../../core/models/product.model';
-        
+
         export interface ProductFormState {
           loading: boolean;
           error: string;
@@ -727,7 +735,7 @@ app
         import { ProductState } from './product.state';
         import { ProductListState } from './product-list.state';
         import { ProductFormState } from './product-form.state';
-        
+
         export const selectCategories = createFeatureSelector<CategoryState>('categories');
         export const selectProducts = createFeatureSelector<ProductListState>('products');
         export const selectProduct = createFeatureSelector<ProductState>('product');
@@ -740,15 +748,15 @@ app
         import * as CategoryActions from '../actions/category.actions';
         import { Category } from '../../core/models/category.model';
         import { CategoryState } from '../state/category.state';
-        
+
         const initialState: CategoryState = {
           categories: [] as Category[],
           loading: false,
           error: null
         };
-        
+
         export type Action = CategoryActions.All;
-        
+
         export function categoryReducers (state: CategoryState = initialState, action: Action) {
           switch (action.type) {
             case CategoryActions.GET_ALL_CATEGORIES: {
@@ -783,15 +791,15 @@ app
         import * as ProductActions from '../actions/product-list.actions';
         import { Product } from '../../core/models/product.model';
         import { ProductListState } from '../state/product-list.state';
-        
+
         const initialState: ProductListState = {
           products: [] as Product[],
           loading: false,
           error: null
         };
-        
+
         export type Action = ProductActions.All;
-        
+
         export function categoryReducers (state: ProductListState = initialState, action: Action) {
           switch (action.type) {
             case ProductActions.GET_ALL_PRODUCTS: {
@@ -826,15 +834,15 @@ app
         import * as ProductActions from '../actions/product.actions';
         import { Product } from '../../core/models/product.model';
         import { ProductState } from '../state/product.state';
-        
+
         const initialState: ProductState = {
           product: [] as Product[],
           loading: false,
           error: null
         };
-        
+
         export type Action = ProductActions.All;
-        
+
         export function categoryReducers (state: ProductState = initialState, action: Action) {
           switch (action.type) {
             case ProductActions.GET_PRODUCT: {
@@ -868,14 +876,14 @@ app
     ```typescript
         import * as ProductFormActions from '../actions/product-form.actions';
         import { ProductFormState } from '../state/product-form.state';
-        
+
         const initialState: ProductFormState = {
           loading: false,
           error: null
         };
-        
+
         export type Action = ProductFormActions.All;
-        
+
         export function productReducers (state: ProductFormState = initialState, action: Action) {
           switch (action.type) {
             case ProductFormActions.SUBMIT_PRODUCT: {
@@ -909,7 +917,7 @@ app
         import { ProductListState } from './category/state/product-list.state';
         import { ProductState } from './category/state/product.state';
         import { ProductFormState } from './category/state/product-form.state';
-        
+
         export interface AppState {
           home: HomeState;
           categories: CategoryState;
@@ -925,7 +933,7 @@ app
         import { productListReducers } from './category/reducers/product-list.reducers';
         import { productReducers } from './category/reducers/product.reducers';
         import { productFormReducers } from './category/reducers/product-form.reducers';
-        
+
         export const reducers = {
           home: homeReducer,
           categories: categoryReducers,
@@ -941,40 +949,40 @@ app
         import { Action, Store } from '@ngrx/store';
         import { Observable } from 'rxjs/Observable';
         import { Router } from '@angular/router';
-        
+
         import * as CategoryActions from '../actions/category.actions';
         import * as ProductListActions from '../actions/product-list.actions';
         import * as ProductActions from '../actions/product.actions';
         import * as ProductFormActions from '../actions/product-form.actions';
-        
+
         import { WebService } from '../../core/services/web.service';
         import { AppState } from '../../app.state';
-        
+
         @Injectable()
         export class CategoryEffects {
-        
+
           @Effect() getCategories$: Observable<Action> = this.actions$
             .ofType(CategoryActions.GET_ALL_CATEGORIES)
             .switchMap((action: CategoryActions.All) => this.webService.getCategories())
             .map((data: any) => (new CategoryActions.GetAllCategoriesSuccess(data)));
-        
+
           @Effect() getProducts$: Observable<Action> = this.actions$
             .ofType(ProductListActions.GET_ALL_PRODUCTS)
             .switchMap((action: ProductListActions.All) => this.webService.getProducts(action.payload))
             .map((data: any) => (new ProductListActions.GetAllProductsSuccess(data)));
-        
+
           @Effect() getProduct$: Observable<Action> = this.actions$
             .ofType(ProductActions.GET_PRODUCT)
             .switchMap((action: ProductActions.All) => this.webService.getProduct(action.payload))
             .map((data: any) => (new ProductActions.GetProductSuccess(data)));
-        
+
           @Effect({ dispatch: false }) submitProduct$: Observable<Action> = this.actions$
             .ofType(ProductFormActions.SUBMIT_PRODUCT)
             .switchMap((action: ProductFormActions.All) => this.webService.submitProduct(action.payload))
             .do(() => this.router.navigate(['category', 'list']));
 
-        
-        
+
+
           constructor(
             private store: Store<AppState>,
             private actions$: Actions,
@@ -995,12 +1003,12 @@ app
     ```typescript
         import { Component, OnInit, OnDestroy } from '@angular/core';
         import { Store } from '@ngrx/store';
-        
+
         import * as CategoryActions from '../../actions/category.actions';
         import { selectCategories } from '../../state/selectors';
         import { AppState } from '../../../app.state';
         import { Category } from '../../../core/models/category.model';
-        
+
         @Component({
           selector: 'app-category-list',
           templateUrl: './category-list.component.html',
@@ -1011,9 +1019,9 @@ app
           loading: boolean;
           error: string;
           storeSubscription;
-        
+
           constructor(private store: Store<AppState>) {}
-        
+
           ngOnInit() {
             this.store.dispatch(new CategoryActions.GetAllCategories());
             this.storeSubscription = this.store.select(selectCategories).subscribe(state => {
@@ -1022,11 +1030,11 @@ app
               this.error = state.error;
             });
           }
-        
+
           ngOnDestroy() {
             this.storeSubscription.unsubscribe();
           }
-        
+
         }
     ```
 - Update `category-list.component.html` accordingly.
@@ -1049,12 +1057,12 @@ app
         import { Component, OnInit, OnDestroy } from '@angular/core';
         import { ActivatedRoute } from '@angular/router';
         import { Store } from '@ngrx/store';
-        
+
         import { AppState } from '../../../app.state';
         import { Product } from '../../../core/models/product.model';
         import * as ProductListActions from '../../actions/product-list.actions';
         import { selectProducts } from '../../state/selectors';
-        
+
         @Component({
           selector: 'app-product-list',
           templateUrl: './product-list.component.html',
@@ -1066,11 +1074,11 @@ app
           error: string;
           routeSubscription;
           storeSubscription;
-        
+
           constructor(
             private store: Store<AppState>,
             private route: ActivatedRoute) { }
-        
+
           ngOnInit() {
             this.routeSubscription = this.route.params.subscribe(params => {
               const category = params.category;
@@ -1082,12 +1090,12 @@ app
               });
             });
           }
-        
+
           ngOnDestroy () {
             this.routeSubscription.unsubscribe();
             this.storeSubscription.unsubscribe();
           }
-        
+
         }
 
     ```
@@ -1125,12 +1133,12 @@ app
         import { Component, OnInit, OnDestroy } from '@angular/core';
         import { ActivatedRoute } from '@angular/router';
         import { Store } from '@ngrx/store';
-        
+
         import * as ProductActions from '../../actions/product.actions';
         import { AppState } from '../../../app.state';
         import { Product } from '../../../core/models/product.model';
         import { selectProduct } from '../../state/selectors';
-        
+
         @Component({
           selector: 'app-product-details',
           templateUrl: './product-details.component.html',
@@ -1142,12 +1150,12 @@ app
           error: string;
           routeSubscription;
           stateSubscription;
-        
+
           constructor(
             private route: ActivatedRoute,
             private store: Store<AppState>
           ) { }
-        
+
           ngOnInit() {
             this.routeSubscription = this.route.params.subscribe(params => {
               const category = params.category;
@@ -1160,12 +1168,12 @@ app
               });
             });
           }
-        
+
           ngOnDestroy() {
             this.routeSubscription.unsubscribe();
             this.stateSubscription.unsubscribe();
           }
-        
+
         }
     ```
 - Update `product-list.component.html` to display the product details
@@ -1197,11 +1205,11 @@ app
         import { Component, OnInit, OnDestroy } from '@angular/core';
         import { FormBuilder, Validators } from '@angular/forms';
         import { Store } from '@ngrx/store';
-        
+
         import { AppState } from '../../../app.state';
         import * as ProductFormActions from '../../actions/product-form.actions';
         import { selectProductForm } from '../../state/selectors';
-        
+
         @Component({
           selector: 'app-product-form',
           templateUrl: './product-form.component.html',
@@ -1212,7 +1220,7 @@ app
           storeSubscription;
           loading: boolean;
           error: string;
-        
+
           constructor(
             private fb: FormBuilder,
             private store: Store<AppState>
@@ -1225,24 +1233,24 @@ app
               imageHref: ['', Validators.required]
             });
           }
-        
+
           ngOnInit() {
             this.storeSubscription = this.store.select(selectProductForm).subscribe(state => {
               this.loading = state.loading;
               this.error = state.error;
             });
           }
-        
+
           ngOnDestroy() {
             this.storeSubscription.unsubscribe();
           }
-        
+
           onSubmit() {
             if (this.form.valid) {
               this.store.dispatch(new ProductFormActions.SubmitProduct(this.form.value));
             }
           }
-        
+
         }
 
     ```
@@ -1287,3 +1295,12 @@ app
         </md-card>
 
     ```
+
+**This finishes the tutorial to create the application using angular 2+ and redux. Now run the application in the browser using npm start**
+
+## Next
+
+- [x] Created tutorial for angular 2 and ngrx
+- [ ] Integrate Unit test cases
+- [ ] Integration test cases
+- [ ] E2E test cases
