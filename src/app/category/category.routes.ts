@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
-import { CategoriesComponent } from './categories/categories.component';
-import { CategoryListComponent } from './category-list/category-list.component';
-import { CategoryDetailsComponent } from './category-details/category-details.component';
-import { CategoryFormComponent } from './category-form/category-form.component';
+import { CategoryListComponent } from './components/category-list/category-list.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+
 
 export const CategoryRoutes: Routes = [
-  { path: 'list', component: CategoriesComponent },
-  { path: 'list/:category', component: CategoryListComponent },
-  { path: 'list/:category/:id', component: CategoryDetailsComponent },
-  { path: 'add', component: CategoryFormComponent }
+  { path: 'list', component: CategoryListComponent },
+  { path: 'list/:category', component: ProductListComponent },
+  { path: 'list/:category/:id', component: ProductDetailsComponent },
+  { path: 'add', component: ProductFormComponent },
 ];

@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
-
 import { SharedModule } from '../shared/shared.module';
 
-import { ProductEffects } from './effects/product.effect';
-import { CategoryEffects } from './effects/category.effect';
+import { CategoryListComponent } from './components/category-list/category-list.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+
+import { CategoryEffects } from './effects/category.effects';
 import { CategoryRoutes as routes } from './category.routes';
-import { CategoryListComponent } from './category-list/category-list.component';
-import { CategoryDetailsComponent } from './category-details/category-details.component';
-import { CategoryFormComponent } from './category-form/category-form.component';
-import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
-  imports: [SharedModule, RouterModule.forChild(routes), EffectsModule.forFeature([CategoryEffects, ProductEffects])],
-  declarations: [
-    CategoryListComponent,
-    CategoryDetailsComponent,
-    CategoryFormComponent,
-    CategoriesComponent
-  ]
+  imports: [
+    SharedModule,
+    RouterModule.forChild(routes),
+    EffectsModule.forFeature([CategoryEffects])
+  ],
+  declarations: [CategoryListComponent, ProductListComponent, ProductDetailsComponent, ProductFormComponent]
 })
-export class CategoryModule {}
+export class CategoryModule { }

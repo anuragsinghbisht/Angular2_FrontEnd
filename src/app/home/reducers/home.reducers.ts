@@ -1,45 +1,40 @@
-import * as HomeActions from '../actions/home.action';
-import { CategoryList } from '../../core/models/category-list';
-import { HomeState } from '../store/home.state';
+import * as HomeActions from '../actions/home.actions';
+import { HomeState } from '../state/home.state';
+import { Exercise } from '../../core/models/exercise.model';
 
 export type Action = HomeActions.All;
 
 const initialState: HomeState = {
-  info: {
-    id: '',
-    title: '',
-    description: ''
-  },
-  loading: true,
+  exercise: {} as Exercise,
+  loading: false,
   error: null
 };
 
 export function homeReducer(state: HomeState = initialState, action: Action) {
   switch (action.type) {
     case HomeActions.GET_TITLE_AND_DESCRIPTION: {
-      const newState = {
+      return {
         ...state,
         loading: true
       };
-      return newState;
     }
     case HomeActions.GET_TITLE_AND_DESCRIPTION_SUCCESS: {
-      const newState = {
-        ...state,
-        info: action.payload,
-        loading: false
-      };
-      return newState;
-    }
-    case HomeActions.GET_TITLE_AND_DESCRIPTION_FAILED: {
-      const newState = {
+      return {
         ...state,
         loading: false,
-        error: action.payload
+        exercise: action.payload
       };
-      return newState;
     }
-    default:
+    case HomeActions.GET_TITLE_AND_DESCRIPTION_FAILED: {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        exercise: {} as Exercise
+      };
+    }
+    default: {
       return state;
+    }
   }
 }

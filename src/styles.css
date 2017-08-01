@@ -6,6 +6,15 @@ body {
   background-color: #eeeeee;
 }
 
+.fill-space {
+  flex: 1 1 auto;
+}
+
+md-card {
+  margin: 5%;
+}
+
+
 .avatar {
   font-weight: bold;
   font-size: 1.5rem;

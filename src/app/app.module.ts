@@ -1,27 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-// Modules
-import { CategoryModule } from './category/category.module';
-import { CoreModule } from './core/core.module';
-import { HomeModule } from './home/home.module';
-import { SharedModule } from './shared/shared.module';
-// Component
-import { AppComponent } from './app.component';
-// Routes
-import { routes } from './app.routes';
-// Reducers
-import { reducers, metaReducers } from './app.reducers';
-// Effects
-import { AppEffects } from './app.effects';
 
-import 'hammerjs';
+import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+
+import { routes } from './app.routes';
+import { reducers, metaReducers } from './app.reducers';
+
 // adding rx operators
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
@@ -32,21 +24,20 @@ import 'rxjs/add/operator/finally';
 import 'rxjs/add/observable/of';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
+    SharedModule,
     BrowserAnimationsModule,
-    HttpModule,
+    CoreModule,
     RouterModule.forRoot(routes),
     StoreModule.forRoot(reducers, { metaReducers }),
-    StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot([AppEffects]),
-    CategoryModule,
-    CoreModule,
-    HomeModule,
-    SharedModule
+    StoreDevtoolsModule.instrument({}),
+    EffectsModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,13 +1,13 @@
-import { HomeState } from './home/store/home.state';
-import { CategoryState } from './category/store/category.state';
-import { ProductListState } from './category/store/product-list.state';
-import { ProductState } from './category/store/product.state';
-import { FormState } from './category/store/form.state';
+import { HomeState } from './home/state/home.state';
+import { CategoryState } from './category/state/category.state';
+import { ProductListState } from './category/state/product-list.state';
+import { ProductState } from './category/state/product.state';
+import { ProductFormState } from './category/state/product-form.state';
 
 export interface AppState {
-  home: HomeState,
-  category: CategoryState,
-  productList: ProductListState,
-  product: ProductState,
-  form: FormState
+  home: HomeState;
+  categories: CategoryState;
+  products: ProductListState;
+  product: ProductState;
+  form: ProductFormState;
 }

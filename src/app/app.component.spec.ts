@@ -1,6 +1,4 @@
 import { TestBed, async } from '@angular/core/testing';
-import {APP_BASE_HREF} from '@angular/common';
-import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
@@ -10,10 +8,6 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      imports: [
-        HttpModule
-      ],
-      providers: []
     }).compileComponents();
   }));
 
@@ -29,4 +23,10 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('app');
   }));
 
+  it('should render title in a h1 tag', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+  }));
 });
