@@ -76,7 +76,7 @@ app
 └── mock-list.ts
 ```
 ## Tutorial
-`Note : Basic knowledge of creating angular appliction using @angular/cli for this tutorial is required for this tutorial. This tutorial is more of step-by-step guide to integrate angular project with @ngrx`
+`Note : This tutorial is step-by-step guide to integrate angular project with @ngrx. Basic knowledge of angular2+ and @angular/cli is required to understand the code.`
 
 ### Create Project using @angular/cli
 - Create Project using *@angular/cli* (v 1.2.1) & install project dependencies
@@ -143,7 +143,7 @@ app
     ```
 
 ### Create *Shared* module to contain components shared by different modules in application
-- Create *core* module `ng g m shared` using *@angular/cli*
+- Create *shared* module `ng g m shared` using *@angular/cli*
 - Add common modules to be shared across application.
     ```typescript
     import { NgModule } from '@angular/core';
@@ -235,8 +235,16 @@ app
       }
     }
     ```
-- Import `WebService` and provide *web.service.ts* in the *core.module.ts*
+- Import `WebService`, `HTTPModule`, `RouterModule` in the *core.module.ts*
+    ```typescript
+        import { RouterModule } from '@angular/router';
+        import { HttpModule } from '@angular/http';
+        import { WebService } from './services/web.service';
+    ```
+- Add `WebService` in the `providers` array.
+    ```typescript
     `providers: [WebService],`
+    ```
 - Create `Models` for the application in the `core` module
     - `Exercise Model` - Create `core/models/exercise.model.ts`
         ```typescript
@@ -244,6 +252,23 @@ app
           title: string;
           description: string;
         }
+        ```
+    - `Category Model`- Create `core/models/category.model.ts`
+        ```typescript
+            export interface Category {
+              categoryName: string;
+            }
+        ```
+    - `Product Model`- Create `core/models/product.model.ts`
+        ```typescript
+            export interface Product {
+              _id: string;
+              title: string;
+              category: string;
+              url: string;
+              description: string;
+              imageHref: string;
+            }
         ```
 ### Create *Home* module to display home page 
 - Create *home* module `ng g m home`
@@ -438,4 +463,827 @@ app
     ```
     ```typescript
     imports: [ EffectsModule.forFeature([HomeEffects])],
+    ```
+- Update *banner.component.ts* to dispatch `GET_TITLE_AND_DESCRIPTION` action and subscribe to data retrieved.
+    ```typescript
+    import { Component, OnInit } from '@angular/core';
+    import { Store } from '@ngrx/store';
+    import { AppState } from '../../../app.state';
+    import { selectHomeState } from '../../state/selectors';
+    import { Exercise } from '../../../core/models/exercise.model';
+    import * as HomeActions from '../../actions/home.actions';
+    
+    @Component({
+      selector: 'app-banner',
+      templateUrl: './banner.component.html',
+      styleUrls: ['./banner.component.css']
+    })
+    export class BannerComponent implements OnInit {
+      exercise: Exercise;
+      loading: boolean;
+      error: string;
+    
+      constructor(private store: Store<AppState>) {}
+    
+      ngOnInit() {
+        this.store.dispatch(new HomeActions.GetTitleAndDescription());
+        this.store.select(selectHomeState).subscribe(state => {
+          this.exercise = state.exercise;
+          this.loading = state.loading;
+          this.error = state.error;
+        });
+      }
+    }
+    ```
+- Update *banner.component.html* to consume the data retrieved.
+    ```html
+        <md-card *ngIf="!loading">
+          <md-card-header>
+            <md-card-title>{{ exercise.title }}</md-card-title>
+          </md-card-header>
+          <md-card-content>
+            <p>{{ exercise.description }}</p>
+          </md-card-content>
+          <md-card-actions>
+            <button md-button routerLink="/category/list">
+              <md-icon>dashboard</md-icon>
+              <span>Categories</span>
+            </button>
+            <button md-button routerLink="/category/add">
+              <md-icon>add</md-icon>
+              <span>Add Product</span>
+            </button>
+          </md-card-actions>
+        </md-card>
+    ```
+### Create *Category* module to store the category details.
+- Create `Category` module using @angular-cli
+    ```node
+        ng g m category
+    ```
+- Create `category-list` component which will contain the list of all the categories available.
+    ```node
+        ng g c category/components/category-list
+    ```
+- Create `product-list` component which will contain the list of all the products available in a category.
+    ```node
+        ng g c category/components/product-list
+    ```
+- Create `product-form` component to add product.
+    ```node
+        ng g c category/components/product-form
+    ```
+- Create `product-details` component which will contain the details of selected product.
+    ```node
+        ng g c category/components/product-details
+    ```
+- Update *app.routes.ts* to store a path for `CategoryModule`
+    ```typescript
+        { path: 'category', loadChildren: './category/category.module#CategoryModule'}
+    ```
+- Create *category.routes.ts* to cantain paths for different components - CategoryListComponent, ProductListComponent, ProductDetailsComponent
+     ```typescript
+        import { Routes } from '@angular/router';
+        import { CategoryListComponent } from './components/category-list/category-list.component';
+        import { ProductListComponent } from './components/product-list/product-list.component';
+        import { ProductDetailsComponent } from './components/product-details/product-details.component';
+        import { ProductFormComponent } from './components/product-form/product-form.component';
+        
+        export const CategoryRoutes: Routes = [
+          { path: 'list', component: CategoryListComponent },
+          { path: 'list/:category', component: ProductListComponent },
+          { path: 'list/:category/:id', component: ProductDetailsComponent },
+          { path: 'add', component: ProductFormComponent },
+        ];
+    ```
+- Update `CategoryModule` to contain the `routes` and `SharedModule`
+    ```typescript
+        import { NgModule } from '@angular/core';
+        import { RouterModule } from '@angular/router';
+        import { SharedModule } from '../shared/shared.module';
+        import { CategoryListComponent } from './components/category-list/category-list.component';
+        import { ProductListComponent } from './components/product-list/product-list.component';
+        import { ProductDetailsComponent } from './components/product-details/product-details.component';
+        import { ProductFormComponent } from './components/product-form/product-form.component';
+        import { CategoryRoutes as routes } from './category.routes';
+        
+        @NgModule({
+          imports: [
+            SharedModule,
+            RouterModule.forChild(routes)
+          ],
+          declarations: [CategoryListComponent, ProductListComponent, ProductDetailsComponent, ProductFormComponent]
+        })
+        export class CategoryModule { }
+    ``` 
+- Create `action` files for all four components 
+    - **app/category/actions/category.actions.ts**
+    ```typescript
+        import { Action } from '@ngrx/store';
+        
+        export const  GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
+        export const  GET_ALL_CATEGORIES_SUCCESS = 'GET_ALL_CATEGORIES_SUCCESS';
+        export const  GET_ALL_CATEGORIES_FAILED = 'GET_ALL_CATEGORIES_FAILED';
+        
+        export class GetAllCategories implements Action {
+          readonly type = GET_ALL_CATEGORIES;
+        }
+        
+        export class GetAllCategoriesSuccess implements Action {
+          readonly type = GET_ALL_CATEGORIES_SUCCESS;
+          constructor(public payload: any) {}
+        }
+        
+        export class GetAllCategoriesFailed implements Action {
+          readonly type = GET_ALL_CATEGORIES_FAILED;
+          constructor(public payload: any) {}
+        }
+        
+        export type All = GetAllCategories | GetAllCategoriesSuccess | GetAllCategoriesFailed;
+
+    ```
+    - **app/category/actions/product-list.actions.ts**
+    ```typescript
+        import { Action } from '@ngrx/store';
+
+        export const  GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
+        export const  GET_ALL_PRODUCTS_SUCCESS = 'GET_ALL_PRODUCTS_SUCCESS';
+        export const  GET_ALL_PRODUCTS_FAILED = 'GET_ALL_PRODUCTS_FAILED';
+        
+        export class GetAllProducts implements Action {
+          readonly type = GET_ALL_PRODUCTS;
+          constructor(public payload: any) {}
+        }
+        
+        export class GetAllProductsSuccess implements Action {
+          readonly type = GET_ALL_PRODUCTS_SUCCESS;
+          constructor(public payload: any) {}
+        }
+        
+        export class GetAllProductsFailed implements Action {
+          readonly type = GET_ALL_PRODUCTS_FAILED;
+          constructor(public payload: any) {}
+        }
+        
+        export type All = GetAllProducts | GetAllProductsSuccess | GetAllProductsFailed;
+
+    ```
+    - **app/category/actions/product.actions.ts**
+    ```typescript
+        import { Action } from '@ngrx/store';
+
+        export const  GET_PRODUCT = 'GET_PRODUCT';
+        export const  GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
+        export const  GET_PRODUCT_FAILED = 'GET_PRODUCT_FAILED';
+        
+        export class GetProduct implements Action {
+          readonly type = GET_PRODUCT;
+          constructor(public payload: any) {}
+        }
+        
+        export class GetProductSuccess implements Action {
+          readonly type = GET_PRODUCT_SUCCESS;
+          constructor(public payload: any) {}
+        }
+        
+        export class GetProductFailed implements Action {
+          readonly type = GET_PRODUCT_FAILED;
+          constructor(public payload: any) {}
+        }
+        
+        export type All = GetProduct | GetProductSuccess | GetProductFailed;
+    ```
+    - **app/category/actions/product-form.actions.ts**
+    ```typescript
+        import { Action } from '@ngrx/store';
+        
+        export const  SUBMIT_PRODUCT = 'SUBMIT_PRODUCT';
+        export const  SUBMIT_PRODUCT_SUCCESS = 'SUBMIT_PRODUCT_SUCCESS';
+        export const  SUBMIT_PRODUCT_FAILED = 'SUBMIT_PRODUCT_FAILED';
+        
+        export class SubmitProduct implements Action {
+          readonly type = SUBMIT_PRODUCT;
+          constructor(public payload: any) {}
+        }
+        
+        export class SubmitProductSuccess implements Action {
+          readonly type = SUBMIT_PRODUCT_SUCCESS;
+          constructor(public payload: any) {}
+        }
+        
+        export class SubmitProductFailed implements Action {
+          readonly type = SUBMIT_PRODUCT_FAILED;
+          constructor(public payload: any) {}
+        }
+        
+        export type All = SubmitProduct | SubmitProductSuccess | SubmitProductFailed;
+    ```
+- Create state files for the 4 components
+    - **app/category/state/category.state.ts**
+    ```typescript
+        import { Category } from '../../core/models/category.model';
+
+        export interface CategoryState {
+          categories: Category[];
+          loading: boolean;
+          error: string;
+        }
+
+    ```
+    - **app/category/state/product-list.state.ts**
+    ```typescript
+        import { Product } from '../../core/models/product.model';
+
+        export interface ProductListState {
+          products: Product[];
+          loading: boolean;
+          error: string;
+        }
+
+    ```
+    - **app/category/state/product.state.ts**
+    ```typescript
+        import { Product } from '../../core/models/product.model';
+        
+        export interface ProductState {
+          product: Product[];
+          loading: boolean;
+          error: string;
+        }
+    ```
+    - **app/category/state/product-form.state.ts**
+    ```typescript
+        import { Product } from '../../core/models/product.model';
+        
+        export interface ProductFormState {
+          loading: boolean;
+          error: string;
+        }
+    ```
+- Create selectors to select the appropriate state from our compoenents **selectors.ts**
+    ```typescript
+        import { createFeatureSelector } from '@ngrx/store';
+        import { CategoryState } from './category.state';
+        import { ProductState } from './product.state';
+        import { ProductListState } from './product-list.state';
+        import { ProductFormState } from './product-form.state';
+        
+        export const selectCategories = createFeatureSelector<CategoryState>('categories');
+        export const selectProducts = createFeatureSelector<ProductListState>('products');
+        export const selectProduct = createFeatureSelector<ProductState>('product');
+        export const selectProductForm = createFeatureSelector<ProductFormState>('form');
+
+    ```
+- Create reducers for the four components
+    - **app/category/reducers/category.reducers.ts**
+    ```typescript
+        import * as CategoryActions from '../actions/category.actions';
+        import { Category } from '../../core/models/category.model';
+        import { CategoryState } from '../state/category.state';
+        
+        const initialState: CategoryState = {
+          categories: [] as Category[],
+          loading: false,
+          error: null
+        };
+        
+        export type Action = CategoryActions.All;
+        
+        export function categoryReducers (state: CategoryState = initialState, action: Action) {
+          switch (action.type) {
+            case CategoryActions.GET_ALL_CATEGORIES: {
+              return {
+                ...state,
+                loading: true
+              };
+            }
+            case CategoryActions.GET_ALL_CATEGORIES_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                categories: action.payload
+              };
+            }
+            case CategoryActions.GET_ALL_CATEGORIES_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                categories: [] as Category[],
+                error: action.payload
+              };
+            }
+            default:
+                return state;
+          }
+        }
+
+    ```
+    - **app/category/reducers/product-list.reducers.ts**
+    ```typescript
+        import * as ProductActions from '../actions/product-list.actions';
+        import { Product } from '../../core/models/product.model';
+        import { ProductListState } from '../state/product-list.state';
+        
+        const initialState: ProductListState = {
+          products: [] as Product[],
+          loading: false,
+          error: null
+        };
+        
+        export type Action = ProductActions.All;
+        
+        export function categoryReducers (state: ProductListState = initialState, action: Action) {
+          switch (action.type) {
+            case ProductActions.GET_ALL_PRODUCTS: {
+              return {
+                ...state,
+                loading: true
+              };
+            }
+            case ProductActions.GET_ALL_PRODUCTS_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                products: action.payload
+              };
+            }
+            case ProductActions.GET_ALL_PRODUCTS_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                products: [] as Product[],
+                error: action.payload
+              };
+            }
+            default:
+                return state;
+          }
+        }
+
+    ```
+    - **app/category/reducers/product.reducers.ts**
+    ```typescript
+        import * as ProductActions from '../actions/product.actions';
+        import { Product } from '../../core/models/product.model';
+        import { ProductState } from '../state/product.state';
+        
+        const initialState: ProductState = {
+          product: [] as Product[],
+          loading: false,
+          error: null
+        };
+        
+        export type Action = ProductActions.All;
+        
+        export function categoryReducers (state: ProductState = initialState, action: Action) {
+          switch (action.type) {
+            case ProductActions.GET_PRODUCT: {
+              return {
+                ...state,
+                loading: true
+              };
+            }
+            case ProductActions.GET_PRODUCT_SUCCESS: {
+              return {
+                ...state,
+                loading: false,
+                product: action.payload
+              };
+            }
+            case ProductActions.GET_PRODUCT_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                product: [] as Product[],
+                error: action.payload
+              };
+            }
+            default:
+                return state;
+          }
+        }
+
+    ```
+    - **app/category/reducers/product-form.reducers.ts**
+    ```typescript
+        import * as ProductFormActions from '../actions/product-form.actions';
+        import { ProductFormState } from '../state/product-form.state';
+        
+        const initialState: ProductFormState = {
+          loading: false,
+          error: null
+        };
+        
+        export type Action = ProductFormActions.All;
+        
+        export function productReducers (state: ProductFormState = initialState, action: Action) {
+          switch (action.type) {
+            case ProductFormActions.SUBMIT_PRODUCT: {
+              return {
+                ...state,
+                loading: true
+              };
+            }
+            case ProductFormActions.SUBMIT_PRODUCT_SUCCESS: {
+              return {
+                ...state,
+                loading: false
+              };
+            }
+            case ProductFormActions.SUBMIT_PRODUCT_FAILED: {
+              return {
+                ...state,
+                loading: false,
+                error: action.payload
+              };
+            }
+            default:
+                return state;
+          }
+        }
+    ```
+- Update `AppState` to accomodate newly added state.
+    ```typescript
+        import { HomeState } from './home/state/home.state';
+        import { CategoryState } from './category/state/category.state';
+        import { ProductListState } from './category/state/product-list.state';
+        import { ProductState } from './category/state/product.state';
+        import { ProductFormState } from './category/state/product-form.state';
+        
+        export interface AppState {
+          home: HomeState;
+          categories: CategoryState;
+          products: ProductListState;
+          product: ProductState;
+          form: ProductFormState;
+        }
+
+    ```
+- Update `app.reducers.ts` to accomodate newly added reducers
+    ```typescript
+        import { categoryReducers } from './category/reducers/category.reducers';
+        import { productListReducers } from './category/reducers/product-list.reducers';
+        import { productReducers } from './category/reducers/product.reducers';
+        import { productFormReducers } from './category/reducers/product-form.reducers';
+        
+        export const reducers = {
+          home: homeReducer,
+          categories: categoryReducers,
+          products: productListReducers,
+          product: productReducers,
+          form: productFormReducers
+        };
+    ```
+- Create effects file **category.effects.ts** to listen to events
+    ```typescript
+        import { Injectable } from '@angular/core';
+        import { Effect, Actions } from '@ngrx/effects';
+        import { Action, Store } from '@ngrx/store';
+        import { Observable } from 'rxjs/Observable';
+        import { Router } from '@angular/router';
+        
+        import * as CategoryActions from '../actions/category.actions';
+        import * as ProductListActions from '../actions/product-list.actions';
+        import * as ProductActions from '../actions/product.actions';
+        import * as ProductFormActions from '../actions/product-form.actions';
+        
+        import { WebService } from '../../core/services/web.service';
+        import { AppState } from '../../app.state';
+        
+        @Injectable()
+        export class CategoryEffects {
+        
+          @Effect() getCategories$: Observable<Action> = this.actions$
+            .ofType(CategoryActions.GET_ALL_CATEGORIES)
+            .switchMap((action: CategoryActions.All) => this.webService.getCategories())
+            .map((data: any) => (new CategoryActions.GetAllCategoriesSuccess(data)));
+        
+          @Effect() getProducts$: Observable<Action> = this.actions$
+            .ofType(ProductListActions.GET_ALL_PRODUCTS)
+            .switchMap((action: ProductListActions.All) => this.webService.getProducts(action.payload))
+            .map((data: any) => (new ProductListActions.GetAllProductsSuccess(data)));
+        
+          @Effect() getProduct$: Observable<Action> = this.actions$
+            .ofType(ProductActions.GET_PRODUCT)
+            .switchMap((action: ProductActions.All) => this.webService.getProduct(action.payload))
+            .map((data: any) => (new ProductActions.GetProductSuccess(data)));
+        
+          @Effect({ dispatch: false }) submitProduct$: Observable<Action> = this.actions$
+            .ofType(ProductFormActions.SUBMIT_PRODUCT)
+            .switchMap((action: ProductFormActions.All) => this.webService.submitProduct(action.payload))
+            .do(() => this.router.navigate(['category', 'list']));
+
+        
+        
+          constructor(
+            private store: Store<AppState>,
+            private actions$: Actions,
+            private webService: WebService,
+            private router: Router
+          ) {}
+        }
+    ```
+- Add `CategoryEffects` in the `CategoryModule`
+    ```typescript
+        import { EffectsModule } from '@ngrx/effects';
+        import { CategoryEffects } from './effects/category.effects';
+    ```
+    ```typescript
+        imports: [ EffectsModule.forFeature([CategoryEffects]) ]
+    ```
+- Update `component-list.component.ts` to dispatch `GET_ALL_CATEGORIES` action.
+    ```typescript
+        import { Component, OnInit, OnDestroy } from '@angular/core';
+        import { Store } from '@ngrx/store';
+        
+        import * as CategoryActions from '../../actions/category.actions';
+        import { selectCategories } from '../../state/selectors';
+        import { AppState } from '../../../app.state';
+        import { Category } from '../../../core/models/category.model';
+        
+        @Component({
+          selector: 'app-category-list',
+          templateUrl: './category-list.component.html',
+          styleUrls: ['./category-list.component.css']
+        })
+        export class CategoryListComponent implements OnInit, OnDestroy {
+          categories: Category[];
+          loading: boolean;
+          error: string;
+          storeSubscription;
+        
+          constructor(private store: Store<AppState>) {}
+        
+          ngOnInit() {
+            this.store.dispatch(new CategoryActions.GetAllCategories());
+            this.storeSubscription = this.store.select(selectCategories).subscribe(state => {
+              this.categories = state.categories;
+              this.loading = state.loading;
+              this.error = state.error;
+            });
+          }
+        
+          ngOnDestroy() {
+            this.storeSubscription.unsubscribe();
+          }
+        
+        }
+    ```
+- Update `category-list.component.html` accordingly.
+    ```html
+    <md-card *ngIf="!!categories.length">
+      <md-nav-list>
+        <h3 md-subheader>Categories</h3>
+        <md-list-item
+          mdTooltip="Click to go to {{category.categoryName}}" mdTooltipPosition="below"
+          [routerLink]="['/category','list',category.categoryName]"
+          *ngFor="let category of categories">
+          <md-icon md-list-icon>widgets</md-icon>
+          <h4 md-line>{{ category.categoryName }}</h4>
+        </md-list-item>
+      </md-nav-list>
+    </md-card>
+    ```
+- Update `product-list.component.ts` to dispatch `GET_ALL_PRODUCTS` action and display product list belonging to particular category
+    ```typescript
+        import { Component, OnInit, OnDestroy } from '@angular/core';
+        import { ActivatedRoute } from '@angular/router';
+        import { Store } from '@ngrx/store';
+        
+        import { AppState } from '../../../app.state';
+        import { Product } from '../../../core/models/product.model';
+        import * as ProductListActions from '../../actions/product-list.actions';
+        import { selectProducts } from '../../state/selectors';
+        
+        @Component({
+          selector: 'app-product-list',
+          templateUrl: './product-list.component.html',
+          styleUrls: ['./product-list.component.css']
+        })
+        export class ProductListComponent implements OnInit, OnDestroy {
+          products: Product[];
+          loading: boolean;
+          error: string;
+          routeSubscription;
+          storeSubscription;
+        
+          constructor(
+            private store: Store<AppState>,
+            private route: ActivatedRoute) { }
+        
+          ngOnInit() {
+            this.routeSubscription = this.route.params.subscribe(params => {
+              const category = params.category;
+              this.store.dispatch(new ProductListActions.GetAllProducts(category));
+              this.storeSubscription = this.store.select(selectProducts).subscribe(state => {
+                this.products = state.products;
+                this.loading = state.loading;
+                this.error = state.error;
+              });
+            });
+          }
+        
+          ngOnDestroy () {
+            this.routeSubscription.unsubscribe();
+            this.storeSubscription.unsubscribe();
+          }
+        
+        }
+
+    ```
+- Update `product-list.component.html` to display the product-list
+    ```typescript
+        <div class="product-list">
+          <md-card
+            mdTooltip="Click to go to details page" mdTooltipPosition="above"
+            [routerLink]='["/category","list",product.category,product._id]'
+            *ngFor="let product of products">
+            <md-card-header>
+              <div md-card-avatar class="avatar"> {{ product.title.split("")[0] }}</div>
+              <md-card-title>{{product.title}}</md-card-title>
+              <md-card-subtitle>{{product.category}}</md-card-subtitle>
+            </md-card-header>
+            <div
+              md-card-image
+              class="product-image"
+              [ngStyle]="{backgroundImage: 'url('+product.imageHref+')'}"></div>
+            <md-card-content>
+              <p>
+                {{product.description}}
+              </p>
+              <p>
+                <md-icon>open in new</md-icon>
+                <a href="{{product.url}}">{{product.url}}</a>
+              </p>
+            </md-card-content>
+          </md-card>
+        </div>
+
+    ```
+- Update `product-details.component.ts` to dispatch `GET_PRODUCT` action and display product details of the selected product
+    ```typescript
+        import { Component, OnInit, OnDestroy } from '@angular/core';
+        import { ActivatedRoute } from '@angular/router';
+        import { Store } from '@ngrx/store';
+        
+        import * as ProductActions from '../../actions/product.actions';
+        import { AppState } from '../../../app.state';
+        import { Product } from '../../../core/models/product.model';
+        import { selectProduct } from '../../state/selectors';
+        
+        @Component({
+          selector: 'app-product-details',
+          templateUrl: './product-details.component.html',
+          styleUrls: ['./product-details.component.css']
+        })
+        export class ProductDetailsComponent implements OnInit, OnDestroy {
+          product: Product;
+          loading: boolean;
+          error: string;
+          routeSubscription;
+          stateSubscription;
+        
+          constructor(
+            private route: ActivatedRoute,
+            private store: Store<AppState>
+          ) { }
+        
+          ngOnInit() {
+            this.routeSubscription = this.route.params.subscribe(params => {
+              const category = params.category;
+              const productId = params.id;
+              this.store.dispatch(new ProductActions.GetProduct({ category, productId}));
+              this.stateSubscription = this.store.select(selectProduct).subscribe(state => {
+                this.product = state.product[0];
+                this.loading = state.loading;
+                this.error = state.error;
+              });
+            });
+          }
+        
+          ngOnDestroy() {
+            this.routeSubscription.unsubscribe();
+            this.stateSubscription.unsubscribe();
+          }
+        
+        }
+    ```
+- Update `product-list.component.html` to display the product details
+    ```html
+        <md-card class="product-card" *ngIf="!!product">
+          <div
+            class="product-image"
+            [ngStyle]="{backgroundImage: 'url('+product.imageHref+')'}"></div>
+            <div class="product-info">
+              <md-card-header>
+                <div md-card-avatar class="avatar"> {{ product.title.split("")[0] }}</div>
+                <md-card-title>{{product.title}}</md-card-title>
+                <md-card-subtitle>{{product.category}}</md-card-subtitle>
+              </md-card-header>
+              <md-card-content>
+                <p>
+                  {{product.description}}
+                </p>
+                <p>
+                  <md-icon>open in new</md-icon>
+                  <a href="{{product.url}}">{{product.url}}</a>
+                </p>
+              </md-card-content>
+            </div>
+        </md-card>
+    ```
+- Update `product-form.component.ts` to dispatch submit action when form is submitted.
+    ```typescript
+        import { Component, OnInit, OnDestroy } from '@angular/core';
+        import { FormBuilder, Validators } from '@angular/forms';
+        import { Store } from '@ngrx/store';
+        
+        import { AppState } from '../../../app.state';
+        import * as ProductFormActions from '../../actions/product-form.actions';
+        import { selectProductForm } from '../../state/selectors';
+        
+        @Component({
+          selector: 'app-product-form',
+          templateUrl: './product-form.component.html',
+          styleUrls: ['./product-form.component.css']
+        })
+        export class ProductFormComponent implements OnInit, OnDestroy {
+          form;
+          storeSubscription;
+          loading: boolean;
+          error: string;
+        
+          constructor(
+            private fb: FormBuilder,
+            private store: Store<AppState>
+          ) {
+            this.form = this.fb.group({
+              category: ['', Validators.required],
+              title: ['', Validators.required],
+              url: ['', Validators.required],
+              description: ['', Validators.required],
+              imageHref: ['', Validators.required]
+            });
+          }
+        
+          ngOnInit() {
+            this.storeSubscription = this.store.select(selectProductForm).subscribe(state => {
+              this.loading = state.loading;
+              this.error = state.error;
+            });
+          }
+        
+          ngOnDestroy() {
+            this.storeSubscription.unsubscribe();
+          }
+        
+          onSubmit() {
+            if (this.form.valid) {
+              this.store.dispatch(new ProductFormActions.SubmitProduct(this.form.value));
+            }
+          }
+        
+        }
+
+    ```
+- Update `product.form.component.html` to display form to enter product details
+    ```html
+        <md-card>
+          <h3 md-header>Add Product</h3>
+          <form
+            [formGroup]="form"
+            (ngSubmit) = "onSubmit()">
+            <p>
+              <md-input-container>
+                <input type="text" mdInput formControlName="category" placeholder="Category">
+              </md-input-container>
+            </p>
+            <p>
+              <md-input-container>
+                <input type="text" mdInput formControlName="title" placeholder="Title">
+              </md-input-container>
+            </p>
+            <p>
+              <md-input-container>
+                <input type="url" mdInput formControlName="url" placeholder="URL">
+              </md-input-container>
+            </p>
+            <p>
+              <md-input-container>
+                <textarea type="text" mdInput formControlName="description" placeholder="Description"></textarea>
+              </md-input-container>
+            </p>
+            <p>
+              <md-input-container>
+                <input type="url" mdInput formControlName="imageHref" placeholder="Image URL">
+              </md-input-container>
+            </p>
+            <p [ngStyle]="{ textAlign: 'center' }">
+              <button md-raised-button color="primary">
+                Submit
+              </button>
+            </p>
+          </form>
+        </md-card>
+
     ```
