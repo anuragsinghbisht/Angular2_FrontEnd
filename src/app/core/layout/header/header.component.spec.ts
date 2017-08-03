@@ -8,9 +8,14 @@ import { RouterLinkWithHref } from '@angular/router';
 
 import { HeaderComponent } from './header.component';
 
+function findLink(debugElements, link) {
+  return debugElements.findIndex(de => de.properties['href'] === link);
+}
+
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let debugElements;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,26 +29,18 @@ describe('HeaderComponent', () => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    debugElements = fixture.debugElement.queryAll(By.directive(RouterLinkWithHref));
   });
 
   it('should have a link to /', () => {
-    const debugElements = fixture.debugElement.queryAll(By.css('button'));
-    console.log(debugElements);
-    const index = debugElements.findIndex(de => {
-      return de.properties['href'] === '/';
-    });
-    // expect(index).toBeGreaterThan(-1);
+    expect(findLink(debugElements, '/')).toBeGreaterThan(-1);
   });
 
   it('should have a link to /category/add', () => {
-    const debugElements = fixture.debugElement.queryAll(By.css('button'));
-    const index = debugElements.findIndex(de => de.properties['href'] === '/category/add');
-    // expect(index).toBeGreaterThan(-1);
+    expect(findLink(debugElements, '/category/add')).toBeGreaterThan(-1);
   });
 
   it('should have a link to /category/list', () => {
-    const debugElements = fixture.debugElement.queryAll(By.css('button'));
-    const index = debugElements.findIndex(de => de.properties['href'] === '/category/list');
-    // expect(index).toBeGreaterThan(-1);
+    expect(findLink(debugElements, '/category/list')).toBeGreaterThan(-1);
   });
 });
