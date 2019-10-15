@@ -1304,3 +1304,10 @@ app
 - [ ] Integrate Unit test cases
 - [ ] Integration test cases
 - [ ] E2E test cases
+
+### How to add new features
+- Fork the project
+- git clone <git-url>
+- git checkout -b <feature-name>
+- git push origin <feature-name>
+- Raise PR for the feature
