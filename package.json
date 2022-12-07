@@ -48,7 +48,7 @@
     "@ngrx/store-devtools": "^4.0.0",
     "@types/jasmine": "2.5.45",
     "@types/node": "^6.0.85",
-    "angular-cli-ghpages": "^0.5.1",
+    "angular-cli-ghpages": "^1.0.5",
     "angular-in-memory-web-api": "^0.3.2",
     "codelyzer": "~3.0.1",
     "jasmine-core": "~2.6.2",
