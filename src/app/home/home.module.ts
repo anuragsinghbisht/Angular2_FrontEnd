@@ -9,8 +9,8 @@ import { HomeRoutes as routes } from './home.routes';
 
 @NgModule({
   imports: [
-    SharedModule,
     RouterModule.forChild(routes),
+    SharedModule,
     EffectsModule.forFeature([HomeEffects])
   ],
   declarations: [BannerComponent]

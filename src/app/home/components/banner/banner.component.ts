@@ -20,8 +20,8 @@ export class BannerComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>) {
     this.storeSubscription = this.store.select(selectHomeState).subscribe(state => {
       this.exercise = state.exercise;
-      this.loading = state.loading;
       this.error = state.error;
+      this.loading = state.loading;
     });
   }
 
